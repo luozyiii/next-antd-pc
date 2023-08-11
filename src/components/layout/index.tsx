@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "antd";
-import ThemeContent from "../page/theme-content";
 import TopMenu from "../menu/top-menu";
 import SideMenu from "../menu/side-menu";
 import styles from "./styles.module.scss";
@@ -14,9 +13,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {["/login"].includes(currentPath) ? (
-        <ThemeContent>{children}</ThemeContent>
+        <>{children}</>
       ) : (
-        <ThemeContent>
+        <>
           <header className={styles.header}>
             <div className={styles.leftArea}>Logo</div>
             <div className={styles.contentArea}>
@@ -39,7 +38,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             )}
             <div className={styles.contentArea}>{children}</div>
           </div>
-        </ThemeContent>
+        </>
       )}
     </>
   );

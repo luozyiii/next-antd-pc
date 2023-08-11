@@ -15,8 +15,3 @@ a {
   color: inherit;
   text-decoration: none;
 }
-// 强制覆盖 antd 样式
-:where(.css-dev-only-do-not-override-1xflnr7).ant-btn > a,
-:where(.css-dev-only-do-not-override-1xflnr7) a {
-  color: #52c41a !important;
-}

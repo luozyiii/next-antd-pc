@@ -1,5 +1,4 @@
 import { Button, ConfigProvider } from "antd";
-import Link from "next/link";
 import theme from "@/theme/themeConfig";
 import styles from "./page.module.scss";
 
@@ -15,9 +14,9 @@ export default function NotFound() {
       <div className={styles.notFoundPage}>
         <h1>404 - Page Not Found</h1>
         <p>Sorry, there is nothing to see here</p>
-        <Link className={styles.goHome} href="/">
+        <a className={styles.goHome} href="/">
           Go Home
-        </Link>
+        </a>
       </div>
     </ConfigProvider>
   );

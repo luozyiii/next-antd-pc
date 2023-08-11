@@ -6,6 +6,7 @@ import {
   MailOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import ThemeContent from "../page/theme-content";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 
@@ -65,13 +66,15 @@ const SideMenu: React.FC = () => {
   };
 
   return (
-    <Menu
-      mode="inline"
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
-      style={{ width: 220 }}
-      items={items}
-    />
+    <ThemeContent>
+      <Menu
+        mode="inline"
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
+        style={{ width: 220 }}
+        items={items}
+      />
+    </ThemeContent>
   );
 };
 

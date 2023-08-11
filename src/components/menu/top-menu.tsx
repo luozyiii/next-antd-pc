@@ -7,6 +7,7 @@ import {
   MailOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import ThemeContent from "../page/theme-content";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 
@@ -47,18 +48,22 @@ const TopMenu = () => {
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
     if (e.key === "") {
-      router.push("/");
+      // router.push("/");
+      window.location.href = "/";
     } else {
-      router.push(`/${e.key}`);
+      // router.push(`/${e.key}`);
+      window.location.href = `/${e.key}`;
     }
   };
   return (
-    <Menu
-      onClick={onClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-      items={items}
-    />
+    <ThemeContent>
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      />
+    </ThemeContent>
   );
 };
 
