@@ -1,0 +1,31 @@
+$colorPrimary: #1da57a;
+.pageContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.headerBox {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 18px;
+  background: #fff;
+  border-bottom: 10px solid #eee;
+  .back {
+    margin-right: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    &:hover {
+      color: $colorPrimary;
+      cursor: pointer;
+    }
+  }
+}
+.contentBox {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

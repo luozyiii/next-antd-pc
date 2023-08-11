@@ -1,13 +1,8 @@
 import React from "react";
-import { Button, ConfigProvider } from "antd";
-import theme from "@/theme/themeConfig";
+import Home from "@/views/home";
 
-const HomePage = () => (
-  <ConfigProvider theme={theme}>
-    <div className="App">
-      <Button type="primary">Hi，this is next antd project　</Button>
-    </div>
-  </ConfigProvider>
-);
+const HomePage = () => {
+  return <Home />;
+};
 
 export default HomePage;

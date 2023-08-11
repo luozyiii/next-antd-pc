@@ -1,0 +1,37 @@
+// 顶部
+.header {
+  height: 46px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  .leftArea,
+  .rightArea {
+    width: 220px;
+    line-height: 46px;
+    text-align: center;
+  }
+  .rightArea {
+    text-align: right;
+    padding-right: 12px;
+  }
+  .contentArea {
+    flex: 1;
+  }
+  .logout {
+    font-size: 14px;
+  }
+}
+// 左侧边
+.main {
+  display: flex;
+  height: calc(100vh - 46px);
+  .leftArea {
+    width: 220px;
+    border-right: 1px solid #eee;
+  }
+  .contentArea {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+}

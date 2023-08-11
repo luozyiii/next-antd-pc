@@ -1,4 +1,6 @@
-const Blog = () => {
-  return <h1>My blog</h1>;
+import BlogList from "@/views/blog/list";
+
+const BlogPage = () => {
+  return <BlogList />;
 };
-export default Blog;
+export default BlogPage;

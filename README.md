@@ -110,6 +110,11 @@ Next.js 中还提供了私有文件夹功能，只需在文件夹名称前加下
 
 例如，尝试访问 localhost:3000/\_hello 路径查看 /app/\_hello 文件夹下 page.tsx 文件的内容是无效的，会导致 404 错误。私有文件夹对于分离 UI 逻辑和路由逻辑、组织内部文件、在代码编辑器中排序和分组文件以及避免命名冲突非常有用。
 
+## MetaData
+
+- react-helmet
+- next-seo
+
 ## 学习资料
 
 - [Nextjs](https://nextjs.org/docs)

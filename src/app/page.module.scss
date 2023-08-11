@@ -1,0 +1,20 @@
+.notFoundPage {
+  width: 404px;
+  margin: 200px auto 0;
+  h1 {
+    font-size: 36px;
+  }
+  p {
+    font-size: 20px;
+    margin: 12px 0 16px;
+  }
+  .goHome {
+    color: #fff;
+    background-color: #52c41a;
+    box-shadow: 0 2px 0 rgba(142, 255, 30, 0.08);
+    font-size: 16px;
+    height: 32px;
+    padding: 6px 15px;
+    border-radius: 4px;
+  }
+}

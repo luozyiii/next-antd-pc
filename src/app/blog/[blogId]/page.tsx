@@ -1,9 +1,11 @@
+import BlogDetail from "@/views/blog/detail";
+
 type BlogDetailProps = {
-  blogId: string;
+  params: { blogId: string };
 };
 
-const BlogDetail = ({ params }: { params: BlogDetailProps }) => {
-  return <h1>博客详情： {params.blogId}</h1>;
+const BlogDetailPage = ({ params }: BlogDetailProps) => {
+  return <BlogDetail blogId={params.blogId} />;
 };
 
-export default BlogDetail;
+export default BlogDetailPage;
