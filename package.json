@@ -10,12 +10,16 @@
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.16.2",
+    "@dnd-kit/sortable": "^7.0.2",
+    "@emotion/css": "^11.11.2",
     "@types/node": "20.4.9",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "antd": "^5.8.2",
+    "dayjs": "^1.11.9",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
+    "lodash-es": "^4.17.21",
     "next": "13.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -24,6 +28,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.8",
     "@types/react-helmet": "^6.1.6"
   }
 }

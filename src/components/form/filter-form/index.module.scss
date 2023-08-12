@@ -1,0 +1,26 @@
+.box {
+  background: #fff;
+  padding: 12px;
+  .formBox {
+    overflow: hidden;
+  }
+  .actionBtn {
+    display: block;
+    width: 100%;
+    text-align: right;
+  }
+  :global(.ant-form-item-control) {
+    flex: 1;
+  }
+  :global(.ant-form-item) {
+    margin-right: 0;
+  }
+  :global(.ant-picker-range) {
+    width: 100%;
+  }
+  .expand {
+    margin-left: 8px;
+    cursor: pointer;
+    color: red;
+  }
+}

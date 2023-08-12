@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { LeftOutlined } from "@ant-design/icons";
 import { Layout, ConfigProvider } from "antd";
+import CustomLayout from "../layout";
 import theme from "@/theme/themeConfig";
 
 import styles from "./styles.module.scss";
@@ -29,16 +30,20 @@ const PageContent: React.FC<PageContentProps> = ({
 
   return (
     <ConfigProvider theme={theme}>
-      <Content className={styles.pageContent}>
-        <div className={styles.headerBox}>
-          <div className={styles.title}>
-            {back && <LeftOutlined className={styles.back} onClick={goBack} />}
-            {title}
+      <CustomLayout>
+        <Content className={styles.pageContent}>
+          <div className={styles.headerBox}>
+            <div className={styles.title}>
+              {back && (
+                <LeftOutlined className={styles.back} onClick={goBack} />
+              )}
+              {title}
+            </div>
+            {rightArea && <div className={styles.rightBox}>{rightArea}</div>}
           </div>
-          {rightArea && <div className={styles.rightBox}>{rightArea}</div>}
-        </div>
-        <div className={styles.contentBox}>{children}</div>
-      </Content>
+          <div className={styles.contentBox}>{children}</div>
+        </Content>
+      </CustomLayout>
     </ConfigProvider>
   );
 };

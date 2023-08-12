@@ -4,18 +4,24 @@ import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   AppstoreOutlined,
-  MailOutlined,
+  HomeOutlined,
   SettingOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import ThemeContent from "../page/theme-content";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 
-const items: MenuProps["items"] = [
+const items: any["items"] = [
   {
     label: "Home",
     key: "",
-    icon: <MailOutlined />,
+    icon: <HomeOutlined />,
+  },
+  {
+    label: "示例",
+    key: "demo",
+    icon: <HeartOutlined />,
   },
   {
     label: "About",
@@ -28,36 +34,35 @@ const items: MenuProps["items"] = [
     icon: <AppstoreOutlined />,
   },
   {
-    label: "Navigation Three - Submenu",
-    key: "SubMenu",
+    label: "你点不了",
+    key: "/SubMenu",
     icon: <SettingOutlined />,
     disabled: true,
   },
   {
-    label: "Not Found",
-    key: "alipay",
+    label: "点了会迷路",
+    key: "notfound",
   },
 ];
 
 const TopMenu = () => {
   const router = useRouter();
-  const currentPath = usePathname();
-  const _path = currentPath.split("/")[1] || "";
-  const [current, setCurrent] = useState(_path);
+  const pathname = usePathname();
+  const _selectedKeys = pathname?.split("/")[1];
 
   const onClick: MenuProps["onClick"] = (e) => {
-    setCurrent(e.key);
-    if (e.key === "") {
-      router.push("/");
+    if (e.key === "demo") {
+      router.push("/demo/form/base");
     } else {
-      router.push(`/${e.key}`);
+      const _path = "/" + e.key;
+      router.push(_path);
     }
   };
   return (
     <ThemeContent>
       <Menu
         onClick={onClick}
-        selectedKeys={[current]}
+        selectedKeys={[_selectedKeys]}
         mode="horizontal"
         items={items}
       />

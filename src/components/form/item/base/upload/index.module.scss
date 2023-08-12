@@ -1,0 +1,7 @@
+.uploadBox {
+  :global(.ant-upload-list-item-container) {
+    > div {
+      height: 100%;
+    }
+  }
+}
