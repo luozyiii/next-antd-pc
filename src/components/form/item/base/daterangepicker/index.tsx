@@ -1,8 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { DatePicker } from "antd";
+import { DatePicker, ConfigProvider } from "antd";
 import dayjs from "dayjs";
 import type { RangePickerProps } from "antd/es/date-picker";
 import type { Dayjs } from "dayjs";
+import zhCN from "antd/locale/zh_CN";
+
 const { RangePicker } = DatePicker;
 
 type valueOriginalProps = [Dayjs | null, Dayjs | null] | null;
@@ -41,7 +43,11 @@ const Comp = ({
       : null;
   }, [value]);
 
-  return <RangePicker {...other} value={_v} onChange={handleOnChange} />;
+  return (
+    <ConfigProvider locale={zhCN}>
+      <RangePicker {...other} value={_v} onChange={handleOnChange} />
+    </ConfigProvider>
+  );
 };
 
 export default Comp;

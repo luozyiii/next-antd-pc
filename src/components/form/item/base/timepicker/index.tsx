@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from "react";
-import { TimePicker } from "antd";
+import { TimePicker, ConfigProvider } from "antd";
 import dayjs from "dayjs";
 import type { TimePickerProps } from "antd";
 import type { Dayjs } from "dayjs";
+import zhCN from "antd/locale/zh_CN";
 
 type valueOriginalProps = Dayjs | null;
 type valueProps = string | undefined;
@@ -32,12 +33,14 @@ const Comp = ({
   }, [format, value]);
 
   return (
-    <TimePicker
-      {...other}
-      format={format}
-      value={_v}
-      onChange={handleOnChange}
-    />
+    <ConfigProvider locale={zhCN}>
+      <TimePicker
+        {...other}
+        format={format}
+        value={_v}
+        onChange={handleOnChange}
+      />
+    </ConfigProvider>
   );
 };
 
