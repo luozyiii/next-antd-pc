@@ -48,11 +48,9 @@ const TopMenu = () => {
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
     if (e.key === "") {
-      // router.push("/");
-      window.location.href = "/";
+      router.push("/");
     } else {
-      // router.push(`/${e.key}`);
-      window.location.href = `/${e.key}`;
+      router.push(`/${e.key}`);
     }
   };
   return (

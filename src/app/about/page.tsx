@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, ConfigProvider } from "antd";
 import About from "./index";
 
 export const metadata = {
