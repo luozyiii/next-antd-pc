@@ -1,4 +1,4 @@
-import BlogDetail from "@/views/blog/detail";
+import BlogDetail from "./detail";
 
 type BlogDetailProps = {
   params: { blogId: string };

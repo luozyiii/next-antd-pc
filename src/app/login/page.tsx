@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, ConfigProvider } from "antd";
-import Login from "@/views/login";
+import Login from "./index";
 
 export const metadata = {
   title: "Login Page",

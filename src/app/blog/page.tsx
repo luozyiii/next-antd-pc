@@ -1,4 +1,4 @@
-import BlogList from "@/views/blog/list";
+import BlogList from "./list";
 
 const BlogPage = () => {
   return <BlogList />;
