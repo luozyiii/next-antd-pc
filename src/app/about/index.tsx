@@ -1,12 +1,9 @@
 import { PageContent } from "@/components";
-import { Button } from "antd";
 
 const About = () => {
   return (
     <PageContent title="关于我们">
-      <div>
-        <Button type="primary">关于我们</Button>
-      </div>
+      <div>简单介绍一下自己。。。</div>
     </PageContent>
   );
 };

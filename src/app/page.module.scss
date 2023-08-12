@@ -1,3 +1,12 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  font-size: 18px;
+  color: #666;
+}
 .notFoundPage {
   width: 404px;
   margin: 200px auto 0;
@@ -6,11 +15,11 @@
   }
   p {
     font-size: 20px;
-    margin: 12px 0 16px;
+    margin: 12px 0 24px;
   }
   .goHome {
     color: #fff;
-    background-color: #52c41a;
+    background-color: #1da57a;
     box-shadow: 0 2px 0 rgba(142, 255, 30, 0.08);
     font-size: 16px;
     height: 32px;

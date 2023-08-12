@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
-  AppstoreOutlined,
   HomeOutlined,
-  SettingOutlined,
+  WifiOutlined,
   HeartOutlined,
+  SmileOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import ThemeContent from "../page/theme-content";
 import type { MenuProps } from "antd";
@@ -14,7 +15,7 @@ import { Menu } from "antd";
 
 const items: any["items"] = [
   {
-    label: "Home",
+    label: "首页　",
     key: "",
     icon: <HomeOutlined />,
   },
@@ -24,19 +25,19 @@ const items: any["items"] = [
     icon: <HeartOutlined />,
   },
   {
-    label: "About",
+    label: "关于我们",
     key: "about",
-    icon: <AppstoreOutlined />,
+    icon: <SmileOutlined />,
   },
   {
-    label: "Blog",
+    label: "博客",
     key: "blog",
-    icon: <AppstoreOutlined />,
+    icon: <FileTextOutlined />,
   },
   {
     label: "你点不了",
     key: "/SubMenu",
-    icon: <SettingOutlined />,
+    icon: <WifiOutlined />,
     disabled: true,
   },
   {

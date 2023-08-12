@@ -1,6 +1,17 @@
 import { CustomLayout } from "@/components";
+import styles from "./page.module.scss";
+
 const Home = () => {
-  return <CustomLayout>欢迎欢迎👏👏👏</CustomLayout>;
+  return (
+    <CustomLayout>
+      <div className={styles.home}>
+        👏👏👏 很高兴看见你～
+        <br />
+        <br />
+        这是一个 NextJS 搭建的试验性项目。
+      </div>
+    </CustomLayout>
+  );
 };
 
 export default Home;
