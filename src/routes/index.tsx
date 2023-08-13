@@ -1,9 +1,4 @@
-import {
-  HomeOutlined,
-  WifiOutlined,
-  SmileOutlined,
-  FileTextOutlined,
-} from "@ant-design/icons";
+import { HomeOutlined, WifiOutlined, SmileOutlined } from "@ant-design/icons";
 import { getTitles, matchPath } from "./utils";
 import demo from "./demo";
 
@@ -18,11 +13,6 @@ const config: any["items"] = [
     label: "关于我",
     key: "about",
     icon: <SmileOutlined />,
-  },
-  {
-    label: "博客",
-    key: "blog",
-    icon: <FileTextOutlined />,
   },
   {
     label: "你点不了",
