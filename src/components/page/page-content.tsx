@@ -1,12 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { LeftOutlined } from "@ant-design/icons";
 import { Layout, ConfigProvider } from "antd";
 import CustomLayout from "../layout";
 import theme from "@/theme/themeConfig";
 
 import styles from "./styles.module.scss";
+import { getRouteTitle } from "@/routes";
 const { Content } = Layout;
 
 interface PageContentProps {
@@ -17,16 +18,19 @@ interface PageContentProps {
 }
 
 const PageContent: React.FC<PageContentProps> = ({
-  title = "首页",
+  title,
   back = false,
   children,
   rightArea,
 }: PageContentProps) => {
+  const pathname = usePathname();
   const router = useRouter();
 
   const goBack = () => {
     router.back();
   };
+
+  title = title || getRouteTitle(pathname);
 
   return (
     <ConfigProvider theme={theme}>

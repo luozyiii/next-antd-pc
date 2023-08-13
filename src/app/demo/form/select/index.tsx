@@ -22,7 +22,7 @@ const SelectForm: React.FC = () => {
   }, []);
 
   return (
-    <PageContent title="选择器">
+    <PageContent>
       <Form
         ref={formRef}
         layout="inline"

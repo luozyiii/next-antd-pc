@@ -28,7 +28,7 @@ const LinkageForm: React.FC = () => {
   }, []);
 
   return (
-    <PageContent title="表单联动">
+    <PageContent>
       <p>shouldUpdate 和 displayRules搭配实现联动</p>
       <Form
         ref={formRef}

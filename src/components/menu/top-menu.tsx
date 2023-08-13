@@ -2,62 +2,31 @@
 
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  HomeOutlined,
-  WifiOutlined,
-  HeartOutlined,
-  SmileOutlined,
-  FileTextOutlined,
-} from "@ant-design/icons";
 import ThemeContent from "../page/theme-content";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 
-const items: any["items"] = [
-  {
-    label: "首页　",
-    key: "",
-    icon: <HomeOutlined />,
-  },
-  {
-    label: "示例",
-    key: "demo",
-    icon: <HeartOutlined />,
-  },
-  {
-    label: "关于我们",
-    key: "about",
-    icon: <SmileOutlined />,
-  },
-  {
-    label: "博客",
-    key: "blog",
-    icon: <FileTextOutlined />,
-  },
-  {
-    label: "你点不了",
-    key: "/SubMenu",
-    icon: <WifiOutlined />,
-    disabled: true,
-  },
-  {
-    label: "点了会迷路",
-    key: "notfound",
-  },
-];
+interface TopMenuProps {
+  items: any[];
+}
 
-const TopMenu = () => {
+const TopMenu: React.FC<TopMenuProps> = ({ items }) => {
   const router = useRouter();
   const pathname = usePathname();
   const _selectedKeys = pathname?.split("/")[1];
 
-  const onClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "demo") {
-      router.push("/demo/form/base");
-    } else {
-      const _path = "/" + e.key;
-      router.push(_path);
+  const getPath = (key: string) => {
+    const target = items?.find((item: any) => item.key === key);
+    let path = "/" + key;
+    if (target?.redirect) {
+      path = target.redirect;
     }
+    return path;
+  };
+
+  const onClick: MenuProps["onClick"] = (e) => {
+    const lathPath = getPath(e.key);
+    router.push(lathPath);
   };
   return (
     <ThemeContent>

@@ -22,7 +22,7 @@ const DateTimeForm: React.FC = () => {
   }, []);
 
   return (
-    <PageContent title="日期时间">
+    <PageContent>
       <Form
         ref={formRef}
         layout="inline"

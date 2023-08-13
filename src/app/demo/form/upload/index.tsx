@@ -42,7 +42,7 @@ const UploadForm: React.FC = () => {
   }, []);
 
   return (
-    <PageContent title="上传">
+    <PageContent>
       <Alert message="Upload组件属于自定义表单" type="info" />
       <br />
       <Form

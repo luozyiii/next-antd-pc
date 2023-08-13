@@ -3,7 +3,7 @@ import { fields } from "./config";
 
 const ModalFormPage = () => {
   return (
-    <PageContent title="弹窗表单">
+    <PageContent>
       <ModalForm fields={fields}>新增</ModalForm>
     </PageContent>
   );

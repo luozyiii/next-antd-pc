@@ -33,7 +33,7 @@ const FilterFormPage: React.FC = () => {
   });
 
   return (
-    <PageContent title="筛选表单">
+    <PageContent>
       <FilterForm
         fields={fields}
         defaultExpand

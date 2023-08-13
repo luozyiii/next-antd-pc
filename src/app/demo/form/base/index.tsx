@@ -22,7 +22,7 @@ const BaseForm: React.FC = () => {
   }, []);
 
   return (
-    <PageContent title="表单基础">
+    <PageContent>
       <Form
         ref={formRef}
         layout="inline"

@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "antd";
+import { getSideMenu, topMenuConfig } from "@/routes";
 import TopMenu from "../menu/top-menu";
 import SideMenu from "../menu/side-menu";
 import styles from "./styles.module.scss";
@@ -14,8 +15,11 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const currentPath = usePathname();
+  const pathname = usePathname();
+  const pathnameArr = pathname?.split("/");
   const router = useRouter();
+
+  const items = getSideMenu(pathnameArr[1]);
 
   return (
     <>
@@ -29,7 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
           />
         </div>
         <div className={styles.contentArea}>
-          <TopMenu />
+          <TopMenu items={topMenuConfig} />
         </div>
         <div className={styles.rightArea}>
           admin
@@ -41,9 +45,9 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </header>
       <div className={styles.main}>
-        {currentPath !== "/" && (
+        {items?.length > 0 && (
           <div className={styles.leftArea}>
-            <SideMenu />
+            <SideMenu items={items} />
           </div>
         )}
         <div className={styles.contentArea}>{children}</div>
