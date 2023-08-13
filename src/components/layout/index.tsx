@@ -36,7 +36,7 @@ const Layout = ({ children }: LayoutProps) => {
           <TopMenu items={topMenuConfig} />
         </div>
         <div className={styles.rightArea}>
-          admin
+          leslie
           <Button type="link">
             <Link href="/login" className={styles.logout}>
               退出

@@ -1,4 +1,4 @@
-import { HeartOutlined, FormOutlined } from "@ant-design/icons";
+import { HeartOutlined, LayoutOutlined, FormOutlined } from "@ant-design/icons";
 
 const demo = {
   label: "示例",
@@ -6,6 +6,21 @@ const demo = {
   icon: <HeartOutlined />,
   redirect: "/demo/form/base",
   children: [
+    {
+      label: "布局",
+      key: "layout",
+      icon: <LayoutOutlined />,
+      children: [
+        {
+          label: "基础容器",
+          key: "base",
+        },
+        {
+          label: "详情容器",
+          key: "detail",
+        },
+      ],
+    },
     {
       label: "表单",
       key: "form",
