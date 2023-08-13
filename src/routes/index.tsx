@@ -1,5 +1,5 @@
 import { HomeOutlined, WifiOutlined, SmileOutlined } from "@ant-design/icons";
-import { getTitles, matchPath } from "./utils";
+import { getTitles, matchPath, treeForeach } from "./utils";
 import demo from "./demo";
 
 const config: any["items"] = [
@@ -34,7 +34,9 @@ const topMenuConfig = config?.map((item: any) => {
 
 // 获取侧边栏菜单
 const getSideMenu = (key: string) => {
-  return config?.find((item: any) => item.key === key)?.children || [];
+  const newConfig =
+    config?.find((item: any) => item.key === key)?.children || [];
+  return treeForeach(newConfig, [key]);
 };
 
 // 获取路由配置标题

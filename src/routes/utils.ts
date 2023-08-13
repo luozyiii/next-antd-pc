@@ -89,4 +89,31 @@ function getTitles(tree: any[]) {
   return res;
 }
 
-export { matchPath, getTitles };
+const getAllPath = (pathname: string) => {
+  const pathSnippets = pathname.split("/").filter((i: string) => i);
+  return pathSnippets.map((_: string, index: number) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
+    return url;
+  });
+};
+
+// 递归处理菜单
+const treeForeach = (tree: any, path?: any) => {
+  return tree
+    ?.map((data: any) => {
+      const { isMenu, key: _path, children, ...other } = data;
+      const pathArr = path ? [...path, _path] : [_path];
+      if (isMenu === false) {
+        return false;
+      }
+      return {
+        ...other,
+        path: _path,
+        key: `/${pathArr.join("/")}`,
+        children: children ? treeForeach(children, pathArr) : undefined,
+      };
+    })
+    .filter(Boolean);
+};
+
+export { matchPath, getTitles, getAllPath, treeForeach };

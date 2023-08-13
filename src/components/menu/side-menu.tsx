@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { getAllPath } from "@/routes/utils";
 import ThemeContent from "../page/theme-content";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-
-const rootSubmenuKeys = ["form"];
 
 interface SideMenuProps {
   items: any[];
@@ -15,31 +14,18 @@ interface SideMenuProps {
 const SideMenu: React.FC<SideMenuProps> = ({ items }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const pathnameArr = pathname?.split("/");
-  const _selectPath = pathnameArr[pathnameArr.length - 1];
-  const [openKeys, setOpenKeys] = useState([pathnameArr[2]]);
-
-  const onOpenChange: MenuProps["onOpenChange"] = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-      setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    }
-  };
+  const _openKeys = getAllPath(pathname);
 
   const onClick: MenuProps["onClick"] = (e) => {
-    const _keyPath = "/demo/" + e.keyPath.reverse().join("/");
-    router.push(_keyPath);
+    router.push(e.key);
   };
 
   return (
     <ThemeContent>
       <Menu
         mode="inline"
-        openKeys={openKeys}
-        onOpenChange={onOpenChange}
-        selectedKeys={[_selectPath]}
+        defaultOpenKeys={_openKeys}
+        selectedKeys={_openKeys}
         style={{ width: 220 }}
         items={items}
         onClick={onClick}

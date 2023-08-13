@@ -2,8 +2,8 @@ import React from "react";
 import About from "./index";
 
 export const metadata = {
-  title: "About Page",
-  description: "this is 描述　",
+  title: "关于我",
+  description: "这很酷！　",
 };
 
 const AboutPage = () => <About />;

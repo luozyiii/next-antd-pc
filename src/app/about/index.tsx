@@ -5,7 +5,7 @@ const About = () => {
   return (
     <CustomLayout>
       <div className={styles.box}>
-        <h4>或许您可以通过下面几个链接了解我</h4>
+        <h4>或许您可以通过下面几个链接了解</h4>
         <ul>
           <li>
             掘金：
