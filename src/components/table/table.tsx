@@ -1,7 +1,8 @@
 import { useMemo, Children, isValidElement, cloneElement } from "react";
 import type { Key } from "react";
-import { Table } from "antd";
+import { Table, ConfigProvider } from "antd";
 import type { TableProps } from "antd";
+import zhCN from "antd/locale/zh_CN";
 
 export const TableColumn: React.FC<any> = ({ children, ...params }: any) => {
   return (children ? children(params) : null) ?? "-";
@@ -37,7 +38,11 @@ const Comp = ({ columns, children, ...other }: TableProps<any>) => {
     });
   }, [children, columns]);
 
-  return <Table {...other} columns={cols} />;
+  return (
+    <ConfigProvider locale={zhCN}>
+      <Table size="small" {...other} columns={cols} />
+    </ConfigProvider>
+  );
 };
 
 export default Comp;

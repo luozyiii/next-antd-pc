@@ -8,7 +8,7 @@ const Login = () => {
     <ThemeContent>
       <div className={styles.login}>
         <Button type="primary" className={styles.loginBtn}>
-          <Link href="/">登录</Link>
+          <Link href="/">登 录</Link>
         </Button>
       </div>
     </ThemeContent>

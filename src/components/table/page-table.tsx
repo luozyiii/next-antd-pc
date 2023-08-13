@@ -8,10 +8,7 @@ import type { TableProps } from "antd";
  */
 const PageTable = ({ children, ...other }: TableProps<any>) => {
   return (
-    <div
-      className="pageTable"
-      style={{ padding: "0 12px 12px 12px", backgroundColor: "#fff" }}
-    >
+    <div className="pageTable">
       <Table bordered sticky {...other}>
         {children}
       </Table>
