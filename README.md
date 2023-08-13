@@ -115,6 +115,59 @@ Next.js 中还提供了私有文件夹功能，只需在文件夹名称前加下
 - react-helmet
 - next-seo
 
+## 部署
+
+- 项目根目录添加 Dockerfile 文件
+
+```Dockerfile
+# 使用Node.js作为基础镜像
+FROM node:20-alpine3.18
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制package.json和package-lock.json文件到工作目录
+COPY package*.json ./
+
+# npm 源，选用国内镜像源以提高下载速度
+# RUN npm config set registry https://registry.npm.taobao.org/
+
+# 腾讯源
+RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
+
+# 安装依赖
+RUN npm install
+
+# 复制应用程序的源代码到工作目录
+COPY . .
+
+# 构建应用程序
+RUN npm run build
+
+# 暴露应用程序的端口
+EXPOSE 3000
+
+# 启动应用程序
+CMD ["npm", "run", "start"]
+
+```
+
+- 再执行以下指令
+
+```bash
+# 2、导航到您的NextJS应用程序的根目录，并运行以下命令来构建Docker镜像：
+docker build -t next-antd-pc .
+
+# 3、使用以下命令在Docker容器中运行您的NextJS应用程序：
+docker run --name next-antd-pc -d -p 8808:3000 next-antd-pc
+
+# docker run: 运行一个新的容器。
+# -- name: 容器名称。
+# -d: 在后台运行容器。
+# -p 8808:3000: 将容器的端口3000映射到主机的端口8808，这样可以通过主机的端口访问容器中运行的应用程序。
+# next-antd-pc: 要运行的容器的名称或镜像。
+```
+
 ## 学习资料
 
 - [Nextjs](https://nextjs.org/docs)
