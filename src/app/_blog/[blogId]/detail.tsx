@@ -1,29 +1,19 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { PageContent } from "@/components";
 
 type BlogDetailProps = {
   blogId: string;
 };
 
-const BlogDetail = ({ blogId }: BlogDetailProps) => {
-  const [user, setUser] = useState<any>(null);
+async function getBlogDetail(blogId: string) {
+  const res = await fetch(
+    `https://api.slingacademy.com/v1/sample-data/users/${blogId}`
+  );
+  return res.json();
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const URL = `https://api.slingacademy.com/v1/sample-data/users/${blogId}`;
-        const res = await fetch(URL);
-        const data = await res.json();
-        setUser(data.user);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+// eslint-disable-next-line @next/next/no-async-client-component
+const BlogDetail = async ({ blogId }: BlogDetailProps) => {
+  const [{ user }] = await Promise.all([getBlogDetail(blogId)]);
 
   return (
     <PageContent back title={`【${blogId}】的博客`}>

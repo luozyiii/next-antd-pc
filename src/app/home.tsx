@@ -8,7 +8,7 @@ const Home = () => {
         👏👏👏 很高兴看见你～
         <br />
         <br />
-        这是一个 NextJS 搭建的试验性项目。
+        这是一个 NextJS v13 的试验性项目。
       </div>
     </CustomLayout>
   );

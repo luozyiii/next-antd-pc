@@ -60,6 +60,17 @@ const demo = {
         },
       ],
     },
+    {
+      label: "数据获取",
+      key: "fetch",
+      icon: <LayoutOutlined />,
+      children: [
+        {
+          label: "图书馆",
+          key: "books",
+        },
+      ],
+    },
   ],
 };
 
