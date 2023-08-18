@@ -4,10 +4,10 @@ import styles from './page.module.css';
 
 async function getData() {
   try {
-    const res = await fetch('/api/book', {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/book`, {
       cache: 'no-store',
     });
-    if (!res.ok) {
+    if (!res) {
       throw new Error('Failed to fetch data');
     }
     return res.json();
