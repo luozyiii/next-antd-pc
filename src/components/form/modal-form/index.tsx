@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { Button, Modal } from "antd";
-import type { FormRef } from "../form";
-import Form from "../form";
+import { useCallback, useRef, useState } from 'react';
+import { Button, Modal } from 'antd';
+import Form from '../form';
+import type { FormRef } from '../form';
 
 interface ModalFormProps {
   fields: any[];
@@ -11,10 +11,7 @@ interface ModalFormProps {
   onSearch?: (params: any) => void;
 }
 
-const ModalForm: React.FC<ModalFormProps> = ({
-  fields,
-  children,
-}: ModalFormProps) => {
+const ModalForm: React.FC<ModalFormProps> = ({ fields, children }: ModalFormProps) => {
   const formRef = useRef<FormRef>(null);
 
   const [open, setOpen] = useState(false);

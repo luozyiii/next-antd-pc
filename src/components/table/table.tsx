@@ -1,11 +1,11 @@
-import { useMemo, Children, isValidElement, cloneElement } from "react";
-import type { Key } from "react";
-import { Table, ConfigProvider } from "antd";
-import type { TableProps } from "antd";
-import zhCN from "antd/locale/zh_CN";
+import { useMemo, Children, isValidElement, cloneElement } from 'react';
+import type { Key } from 'react';
+import zhCN from 'antd/locale/zh_CN';
+import { Table, ConfigProvider } from 'antd';
+import type { TableProps } from 'antd';
 
 export const TableColumn: React.FC<any> = ({ children, ...params }: any) => {
-  return (children ? children(params) : null) ?? "-";
+  return (children ? children(params) : null) ?? '-';
 };
 
 const Comp = ({ columns, children, ...other }: TableProps<any>) => {
@@ -28,10 +28,9 @@ const Comp = ({ columns, children, ...other }: TableProps<any>) => {
       const ChildComp = childMap[key];
 
       if (ChildComp && ChildComp.type === TableColumn) {
-        col.render = (...params: any[]) =>
-          cloneElement(ChildComp, { ...params[1], index: params[2] });
+        col.render = (...params: any[]) => cloneElement(ChildComp, { ...params[1], index: params[2] });
       } else {
-        col.render = (text: string | number) => text ?? "-";
+        col.render = (text: string | number) => text ?? '-';
       }
 
       return col;

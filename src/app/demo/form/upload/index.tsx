@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { Button, Card, Space, Alert } from "antd";
-import { PageContent, Form } from "@/components";
-import type { FormRef } from "@/components/form/form";
-import fields from "./config";
+import { useCallback, useRef, useState } from 'react';
+import { Button, Space, Alert } from 'antd';
+import { PageContent, Form } from '@/components';
+import type { FormRef } from '@/components/form/form';
+import fields from './config';
 
 // upload组件也是自定义组件
 const UploadForm: React.FC = () => {
-  const [preStr, setPreStr] = useState("");
+  const [preStr, setPreStr] = useState('');
   const formRef = useRef<FormRef>();
 
   const handleSubmit = useCallback(async () => {
@@ -26,16 +26,16 @@ const UploadForm: React.FC = () => {
     formRef?.current?.setFieldsValue({
       upload: [
         {
-          uid: "-1",
-          name: "image.png",
-          status: "done",
-          url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+          uid: '-1',
+          name: 'image.png',
+          status: 'done',
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
         {
-          uid: "-2",
-          name: "image.png",
-          status: "done",
-          url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+          uid: '-2',
+          name: 'image.png',
+          status: 'done',
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
       ],
     });

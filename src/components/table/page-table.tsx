@@ -1,5 +1,5 @@
-import Table from "./table";
-import type { TableProps } from "antd";
+import type { TableProps } from 'antd';
+import Table from './table';
 
 /**
  * 定制table样式

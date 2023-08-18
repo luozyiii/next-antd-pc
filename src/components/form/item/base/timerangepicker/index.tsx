@@ -1,30 +1,22 @@
-import { useCallback, useMemo } from "react";
-import { TimePicker, ConfigProvider } from "antd";
-import dayjs from "dayjs";
-import type { TimeRangePickerProps } from "antd";
-import type { Dayjs } from "dayjs";
-import zhCN from "antd/locale/zh_CN";
+import { useCallback, useMemo } from 'react';
+import zhCN from 'antd/locale/zh_CN';
+import dayjs from 'dayjs';
+import { TimePicker, ConfigProvider } from 'antd';
+import type { TimeRangePickerProps } from 'antd';
+import type { Dayjs } from 'dayjs';
 
 const { RangePicker } = TimePicker;
 
 type valueOriginalProps = [Dayjs | null, Dayjs | null] | null;
 type valueProps = (string | null)[] | undefined;
 
-type CustomeRangePickerProps = Omit<
-  TimeRangePickerProps,
-  "value" | "onChange"
-> & {
+type CustomeRangePickerProps = Omit<TimeRangePickerProps, 'value' | 'onChange'> & {
   value?: valueProps;
   onChange?: (value: valueProps) => void;
 };
 
 // 实现重点： value入参、出参的一致性
-const Comp = ({
-  value,
-  onChange,
-  format = "HH:mm:ss",
-  ...other
-}: CustomeRangePickerProps) => {
+const Comp = ({ value, onChange, format = 'HH:mm:ss', ...other }: CustomeRangePickerProps) => {
   const handleOnChange = useCallback(
     (dates: valueOriginalProps) => {
       const v =
@@ -35,7 +27,7 @@ const Comp = ({
           : undefined;
       onChange?.(v);
     },
-    [format, onChange]
+    [format, onChange],
   );
   const _v: valueOriginalProps | any = useMemo(() => {
     return value && value.length
@@ -47,12 +39,7 @@ const Comp = ({
 
   return (
     <ConfigProvider locale={zhCN}>
-      <RangePicker
-        {...other}
-        format={format}
-        value={_v}
-        onChange={handleOnChange}
-      />
+      <RangePicker {...other} format={format} value={_v} onChange={handleOnChange} />
     </ConfigProvider>
   );
 };

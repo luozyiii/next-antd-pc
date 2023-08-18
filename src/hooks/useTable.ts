@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
-import type { PaginationProps, TableProps } from "antd";
+import { useState, useCallback, useEffect } from 'react';
+import type { PaginationProps, TableProps } from 'antd';
 
 interface UseTableParams {
   fetch: (params: any) => Promise<any>;
@@ -18,7 +18,7 @@ type UseTableReturn = [
   },
   (params: any) => void, // onSearch
   () => void, // onReset
-  () => void // onRefresh
+  () => void, // onRefresh
 ];
 
 const defaultPageSize = 10; // 分页选择默认值
@@ -62,7 +62,7 @@ const useTable = ({ fetch, fetchParams }: UseTableParams): UseTableReturn => {
         setLoading(false);
       }
     },
-    [fetch, fetchParams, formData, pagination]
+    [fetch, fetchParams, formData, pagination],
   );
 
   const handleOnChange = useCallback(
@@ -73,15 +73,13 @@ const useTable = ({ fetch, fetchParams }: UseTableParams): UseTableReturn => {
         getDataSource(newPage, newPageSize);
       }
       // 目前只考虑了 一个 page-table 的场景
-      const mainElement = document && document.getElementById("mainContent");
-      const tableElement = mainElement?.querySelectorAll(
-        ".pageTable"
-      )?.[0] as HTMLElement;
+      const mainElement = document && document.getElementById('mainContent');
+      const tableElement = mainElement?.querySelectorAll('.pageTable')?.[0] as HTMLElement;
       if (mainElement && tableElement) {
         mainElement.scrollTop = tableElement?.offsetTop || 0;
       }
     },
-    [getDataSource, pagination]
+    [getDataSource, pagination],
   );
 
   // 查询
@@ -89,7 +87,7 @@ const useTable = ({ fetch, fetchParams }: UseTableParams): UseTableReturn => {
     (params?: any) => {
       getDataSource(1, pagination.pageSize, params);
     },
-    [pagination.pageSize, getDataSource]
+    [pagination.pageSize, getDataSource],
   );
 
   // 重置

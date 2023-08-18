@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useCallback, useState, useRef } from "react";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { Button, Space } from "antd";
-import type { FormRef } from "../form";
-import Form from "../form";
-import styles from "./index.module.scss";
+import React, { useCallback, useState, useRef } from 'react';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Button, Space } from 'antd';
+import Form from '../form';
+import styles from './index.module.scss';
+import type { FormRef } from '../form';
 
 interface FilterFormProps {
   fields: any[];
@@ -55,7 +55,7 @@ const FilterForm: React.FC<FilterFormProps> = ({
         responsive
         fields={fields}
         className={styles.formBox}
-        style={{ height: showExpand ? (!expand ? "56px" : "auto") : "auto" }}
+        style={{ height: showExpand ? (!expand ? '56px' : 'auto') : 'auto' }}
       />
       <div className={styles.actionBtn}>
         <Space>

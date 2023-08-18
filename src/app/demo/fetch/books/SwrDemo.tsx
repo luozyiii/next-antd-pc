@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Card } from 'antd';
 import useSWR from 'swr';
+import { Card } from 'antd';
 import styles from './page.module.css';
 
-const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
+const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
 function SwrDemo() {
   const { data, error, isLoading } = useSWR('/api/book', fetcher);

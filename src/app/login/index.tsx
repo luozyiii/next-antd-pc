@@ -7,7 +7,6 @@ import styles from './styles.module.scss';
 
 const Login = () => {
   const { data: session } = useSession();
-  console.log('session', session);
 
   return (
     <ThemeContent>

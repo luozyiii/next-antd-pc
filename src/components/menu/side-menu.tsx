@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { getAllPath } from "@/routes/utils";
-import ThemeContent from "../page/theme-content";
-import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import React from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import { getAllPath } from '@/routes/utils';
+import ThemeContent from '../page/theme-content';
 
 interface SideMenuProps {
   items: any[];
@@ -16,7 +16,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ items }) => {
   const pathname = usePathname();
   const _openKeys = getAllPath(pathname);
 
-  const onClick: MenuProps["onClick"] = (e) => {
+  const onClick: MenuProps['onClick'] = (e) => {
     router.push(e.key);
   };
 
