@@ -1,22 +1,17 @@
-import { PageContent } from "@/components";
-import { getBooks } from "@/apis";
-import Link from "next/link";
+import { PageContent } from '@/components';
+import ApiDemo from './ApiDemo';
+import FetchDemo from './FetchDemo';
+import SwrDemo from './SwrDemo';
 
 export default async function BooksPage() {
-  const { data: books } = await getBooks();
-
   return (
     <PageContent>
-      <p>该示例演示了，列表数据和详情数据的获取。</p>
+      <h4 style={{ marginBottom: '10px' }}>该页面演示了三种请求方式来获取列表数据。</h4>
+      <FetchDemo />
       <br />
-      {books?.map((book: any, key: number) => {
-        const _href = "/demo/fetch/books/" + String(book?.id);
-        return (
-          <li key={key}>
-            <Link href={_href}>{book?.name}</Link>
-          </li>
-        );
-      })}
+      <ApiDemo />
+      <br />
+      <SwrDemo />
     </PageContent>
   );
 }

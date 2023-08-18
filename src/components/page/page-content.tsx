@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter, usePathname } from "next/navigation";
-import { LeftOutlined } from "@ant-design/icons";
-import { Layout, ConfigProvider } from "antd";
-import CustomLayout from "../layout";
-import theme from "@/theme/themeConfig";
-
-import styles from "./styles.module.scss";
-import { getRouteTitle } from "@/routes";
+import { useRouter, usePathname } from 'next/navigation';
+import { Layout, ConfigProvider } from 'antd';
+import { LeftOutlined } from '@ant-design/icons';
+import { getRouteTitle } from '@/routes';
+import theme from '@/theme/themeConfig';
+import styles from './styles.module.scss';
 const { Content } = Layout;
 
 interface PageContentProps {
@@ -17,12 +15,7 @@ interface PageContentProps {
   rightArea?: React.ReactNode | null;
 }
 
-const PageContent: React.FC<PageContentProps> = ({
-  title,
-  back = false,
-  children,
-  rightArea,
-}: PageContentProps) => {
+const PageContent: React.FC<PageContentProps> = ({ title, back = false, children, rightArea }: PageContentProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -34,20 +27,16 @@ const PageContent: React.FC<PageContentProps> = ({
 
   return (
     <ConfigProvider theme={theme}>
-      <CustomLayout>
-        <Content className={styles.pageContent}>
-          <div className={styles.headerBox}>
-            <div className={styles.title}>
-              {back && (
-                <LeftOutlined className={styles.back} onClick={goBack} />
-              )}
-              {title}
-            </div>
-            {rightArea && <div className={styles.rightBox}>{rightArea}</div>}
+      <Content className={styles.pageContent}>
+        <div className={styles.headerBox}>
+          <div className={styles.title}>
+            {back && <LeftOutlined className={styles.back} onClick={goBack} />}
+            {title}
           </div>
-          <div className={styles.contentBox}>{children}</div>
-        </Content>
-      </CustomLayout>
+          {rightArea && <div className={styles.rightBox}>{rightArea}</div>}
+        </div>
+        <div className={styles.contentBox}>{children}</div>
+      </Content>
     </ConfigProvider>
   );
 };

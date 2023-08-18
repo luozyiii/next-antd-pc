@@ -36,8 +36,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 // **/page.tsx
 
 export const metadata = {
-  title: "About Page",
-  description: "this is 描述　",
+  title: 'About Page',
+  description: 'this is 描述　',
 };
 ```
 
@@ -50,13 +50,13 @@ export const metadata = {
 ```tsx
 // src/app/about/page.tsx
 
-import React from "react";
-import { Button, ConfigProvider } from "antd";
-import theme from "@/theme/themeConfig";
+import React from 'react';
+import { Button, ConfigProvider } from 'antd';
+import theme from '@/theme/themeConfig';
 
 export const metadata = {
-  title: "About Page",
-  description: "this is 描述　",
+  title: 'About Page',
+  description: 'this is 描述　',
 };
 
 const AboutPage = () => (
@@ -174,4 +174,4 @@ docker run --name next-antd-pc -d -p 8808:3000 next-antd-pc
 
 - [在 Nextjs 中使用 Antd](https://ant.design/docs/react/use-with-next-cn)
 
-- [leran nextjs](https://www.slingacademy.com/article/how-to-highlight-currently-active-link-in-next-js/)
+- [代码规范](https://juejin.cn/post/7194716721763057722)

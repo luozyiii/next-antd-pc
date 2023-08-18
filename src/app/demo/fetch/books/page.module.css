@@ -1,0 +1,14 @@
+.title {
+  margin: 0 auto 6px;
+  font-size: 14px;
+}
+.list,
+.list li {
+  list-style: none;
+}
+.list {
+  padding-left: 6px;
+}
+.list li {
+  margin-top: 6px;
+}
