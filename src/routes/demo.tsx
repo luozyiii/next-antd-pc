@@ -4,7 +4,7 @@ const demo = {
   label: '示例',
   key: 'demo',
   icon: <HeartOutlined />,
-  redirect: '/demo/form/base',
+  redirect: '/demo/fetch/books',
   children: [
     {
       label: '布局',

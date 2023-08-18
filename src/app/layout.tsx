@@ -1,5 +1,6 @@
 import React from 'react';
-import StyledComponentsRegistry from '../components/AntdRegistry';
+import StyledComponentsRegistry from '@/components/AntdRegistry';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import '@/theme/globals.scss';
 
 export const metadata = {
@@ -14,7 +15,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <AuthProvider>{children}</AuthProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

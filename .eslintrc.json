@@ -19,7 +19,7 @@
           },
           {
             "pattern": "antd**",
-            "group": "builtin",
+            "group": "internal",
             "position": "before"
           },
           {

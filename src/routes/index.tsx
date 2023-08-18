@@ -1,28 +1,28 @@
-import { HomeOutlined, WifiOutlined, SmileOutlined } from "@ant-design/icons";
-import { getTitles, matchPath, treeForeach } from "./utils";
-import demo from "./demo";
+import { HomeOutlined, WifiOutlined, SmileOutlined } from '@ant-design/icons';
+import demo from './demo';
+import { getTitles, matchPath, treeForeach } from './utils';
 
-const config: any["items"] = [
+const config: any['items'] = [
   {
-    label: "首页",
-    key: "",
+    label: '首页',
+    key: '',
     icon: <HomeOutlined />,
   },
   demo,
   {
-    label: "关于我",
-    key: "about",
+    label: '关于我',
+    key: 'about',
     icon: <SmileOutlined />,
   },
   {
-    label: "你点不了",
-    key: "hi",
+    label: '你点不了',
+    key: 'hi',
     icon: <WifiOutlined />,
     disabled: true,
   },
   {
-    label: "点了会迷路",
-    key: "notfound",
+    label: '点了会迷路',
+    key: 'notfound',
   },
 ];
 
@@ -34,15 +34,14 @@ const topMenuConfig = config?.map((item: any) => {
 
 // 获取侧边栏菜单
 const getSideMenu = (key: string) => {
-  const newConfig =
-    config?.find((item: any) => item.key === key)?.children || [];
+  const newConfig = config?.find((item: any) => item.key === key)?.children || [];
   return treeForeach(newConfig, [key]);
 };
 
 // 获取路由配置标题
 const getRouteTitle = (pathname: string) => {
   const titles = getTitles(config);
-  let title = "";
+  let title = '';
   for (const key in titles) {
     if (matchPath(key, pathname)) {
       title = titles[key];

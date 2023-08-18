@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "antd";
-import { getSideMenu, topMenuConfig } from "@/routes";
-import TopMenu from "../menu/top-menu";
-import SideMenu from "../menu/side-menu";
-import styles from "./styles.module.scss";
-import LogoImg from "@/app/favicon.ico";
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import LogoImg from '@/app/favicon.ico';
+import { getSideMenu, topMenuConfig } from '@/routes';
+import SideMenu from '../menu/side-menu';
+import TopMenu from '../menu/top-menu';
+import LoginBtn from '../user/LoginBtn';
+import styles from './styles.module.scss';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -16,7 +15,7 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const pathname = usePathname();
-  const pathnameArr = pathname?.split("/");
+  const pathnameArr = pathname?.split('/');
   const router = useRouter();
 
   const items = getSideMenu(pathnameArr[1]);
@@ -25,23 +24,18 @@ const Layout = ({ children }: LayoutProps) => {
     <>
       <header className={styles.header}>
         <div className={styles.leftArea}>
-          <Image
-            src={LogoImg}
-            alt="logo"
-            className={styles.logo}
-            onClick={() => router.push("/")}
-          />
+          <Image src={LogoImg} alt="logo" className={styles.logo} onClick={() => router.push('/')} />
         </div>
         <div className={styles.contentArea}>
           <TopMenu items={topMenuConfig} />
         </div>
         <div className={styles.rightArea}>
-          leslie
-          <Button type="link">
+          <LoginBtn />
+          {/* <Button type="link">
             <Link href="/login" className={styles.logout}>
               退出
             </Link>
-          </Button>
+          </Button> */}
         </div>
       </header>
       <div className={styles.main}>
