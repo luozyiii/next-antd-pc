@@ -1,17 +1,12 @@
-import { useCallback, useState } from "react";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { DndContext, PointerSensor, useSensor } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { Upload } from "antd";
-// import api from '@/api';
-import DraggableUploadListItem from "./DraggableUploadListItem";
-import styles from "./index.module.scss";
-import type { DragEndEvent } from "@dnd-kit/core";
-import type { UploadFile, UploadProps } from "antd/es/upload/interface";
+import { useCallback, useState } from 'react';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { Upload } from 'antd';
+import DraggableUploadListItem from './DraggableUploadListItem';
+import styles from './index.module.scss';
+import type { DragEndEvent } from '@dnd-kit/core';
+import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 
 type CustomeUploadProps = UploadProps & {
   value?: UploadFile[];
@@ -19,12 +14,7 @@ type CustomeUploadProps = UploadProps & {
 };
 
 // 自定义表单的一种实现
-const Comp = ({
-  maxCount = 1,
-  value: fileList = [],
-  onChange,
-  ...other
-}: CustomeUploadProps) => {
+const Comp = ({ maxCount = 1, value: fileList = [], onChange, ...other }: CustomeUploadProps) => {
   const [loading, setLoading] = useState(false);
 
   const sensor = useSensor(PointerSensor, {
@@ -40,10 +30,10 @@ const Comp = ({
         onChange?.(newValue);
       }
     },
-    [fileList, onChange]
+    [fileList, onChange],
   );
 
-  const handleOnChange: UploadProps["onChange"] = useCallback(
+  const handleOnChange: UploadProps['onChange'] = useCallback(
     ({ fileList: newFileList }: any) => {
       newFileList = newFileList.slice(0);
       newFileList = newFileList.map((file: UploadFile) => {
@@ -54,26 +44,32 @@ const Comp = ({
       });
       onChange?.(newFileList);
     },
-    [onChange]
+    [onChange],
   );
 
   const customRequest = useCallback(async ({ file, onSuccess }: any) => {
-    setLoading(true);
-    const data = new FormData();
-    data.append("type", "PRIVATELY");
-    data.append("file", file);
-    data.append("fileName", file?.name);
-    // const res = await api.common.upload(data);
-    // onSuccess(res.data?.data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const data = new FormData();
+      data.append('file', file);
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: data,
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const res2 = await res.json();
+      onSuccess({
+        url: res2?.data,
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   }, []);
 
   return (
     <DndContext sensors={[sensor]} onDragEnd={onDragEnd}>
-      <SortableContext
-        items={fileList?.map((i) => i.uid)}
-        strategy={verticalListSortingStrategy}
-      >
+      <SortableContext items={fileList?.map((i) => i.uid)} strategy={verticalListSortingStrategy}>
         <Upload
           {...other}
           className={styles.uploadBox}
@@ -82,9 +78,7 @@ const Comp = ({
           fileList={fileList.slice(0, maxCount)}
           onChange={handleOnChange}
           customRequest={customRequest}
-          itemRender={(originNode, file) => (
-            <DraggableUploadListItem originNode={originNode} file={file} />
-          )}
+          itemRender={(originNode, file) => <DraggableUploadListItem originNode={originNode} file={file} />}
         >
           {fileList.length >= maxCount ? null : (
             <div>
