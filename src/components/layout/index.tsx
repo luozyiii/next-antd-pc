@@ -31,11 +31,6 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
         <div className={styles.rightArea}>
           <LoginBtn />
-          {/* <Button type="link">
-            <Link href="/login" className={styles.logout}>
-              退出
-            </Link>
-          </Button> */}
         </div>
       </header>
       <div className={styles.main}>
