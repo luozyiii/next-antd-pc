@@ -52,14 +52,19 @@ const Comp = ({ maxCount = 1, value: fileList = [], onChange, ...other }: Custom
       setLoading(true);
       const data = new FormData();
       data.append('file', file);
+      data.append('fileName', file.name);
+      data.append('contentType', file.type);
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: data,
       });
-      if (!res.ok) throw new Error(await res.text());
-      const res2 = await res.json();
+      if (!res.ok) {
+        setLoading(false);
+        throw new Error(await res.text());
+      }
+      const lastData = await res.json();
       onSuccess({
-        url: res2?.data,
+        url: lastData?.data?.url,
       });
       setLoading(false);
     } catch (error) {
