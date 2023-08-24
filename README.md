@@ -168,6 +168,10 @@ docker run --name next-antd-pc -d -p 8808:3000 next-antd-pc
 # next-antd-pc: 要运行的容器的名称或镜像。
 ```
 
+## 骨架屏 - [react-content-loader](https://github.com/danilowoz/react-content-loader)
+
+[在线编辑](https://skeletonreact.com/)
+
 ## 学习资料
 
 - [Nextjs](https://nextjs.org/docs)
