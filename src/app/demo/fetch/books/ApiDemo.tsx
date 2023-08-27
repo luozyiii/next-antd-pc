@@ -1,18 +1,7 @@
 import Link from 'next/link';
 import { Card } from 'antd';
+import { getData } from '@/apis';
 import styles from './page.module.css';
-
-async function getData() {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/book`, {
-      cache: 'no-store',
-    });
-    if (!res) {
-      throw new Error('Failed to fetch data');
-    }
-    return res.json();
-  } catch (error) {}
-}
 
 export default async function ApiDemo() {
   const res = await getData();

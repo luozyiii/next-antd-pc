@@ -1,21 +1,26 @@
 'use client';
 
-import { useSession, signOut, signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { Button } from 'antd';
+import { clearCookies } from '@/app/action';
 
-export default function Component() {
-  const { data: session, status } = useSession();
-  const userEmail = session?.user?.email;
+export default function Component({ token, userInfo = {} }: any) {
+  const router = useRouter();
 
-  if (status === 'loading') {
-    return <p>Loading...</p>;
-  }
+  const signIn = () => {
+    router.push('/login');
+  };
 
-  if (status === 'authenticated') {
+  const signOut = () => {
+    clearCookies();
+    router.push('/login');
+  };
+
+  if (token) {
     return (
       <>
-        <span>{userEmail}</span>
-        <Button type="link" onClick={() => signOut()}>
+        <span>{userInfo?.username}</span>
+        <Button style={{ color: 'rgb(244, 142, 142)' }} type="link" onClick={() => signOut()}>
           退出
         </Button>
       </>
@@ -23,7 +28,7 @@ export default function Component() {
   }
 
   return (
-    <Button type="link" onClick={() => signIn('github')}>
+    <Button style={{ color: '#1da57a' }} type="link" onClick={() => signIn()}>
       登录
     </Button>
   );

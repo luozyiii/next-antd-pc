@@ -10,14 +10,16 @@ import LoginBtn from '../user/LoginBtn';
 import styles from './styles.module.scss';
 
 type LayoutProps = {
+  token: string;
+  userInfo: any;
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: LayoutProps) => {
-  const pathname = usePathname();
-  const pathnameArr = pathname?.split('/');
+const Layout = ({ token, userInfo, children }: LayoutProps) => {
   const router = useRouter();
 
+  const pathname = usePathname();
+  const pathnameArr = pathname?.split('/');
   const items = getSideMenu(pathnameArr[1]);
 
   return (
@@ -30,7 +32,7 @@ const Layout = ({ children }: LayoutProps) => {
           <TopMenu items={topMenuConfig} />
         </div>
         <div className={styles.rightArea}>
-          <LoginBtn />
+          <LoginBtn token={token} userInfo={userInfo} />
         </div>
       </header>
       <div className={styles.main}>
@@ -39,7 +41,11 @@ const Layout = ({ children }: LayoutProps) => {
             <SideMenu items={items} />
           </div>
         )}
-        <div className={styles.contentArea}>{children}</div>
+        {token || pathname === '/' ? (
+          <div className={styles.contentArea}>{children}</div>
+        ) : (
+          <div className={styles.notAllow}>暂无权限访问，请先登录</div>
+        )}
       </div>
     </>
   );

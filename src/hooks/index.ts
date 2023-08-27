@@ -1,3 +1,4 @@
-import useTable from "./useTable";
+import useFetch from './useFetch';
+import useTable from './useTable';
 
-export { useTable };
+export { useTable, useFetch };

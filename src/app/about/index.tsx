@@ -1,9 +1,14 @@
-import { CustomLayout } from "@/components";
-import styles from "./styles.module.scss";
+import { cookies } from 'next/headers';
+import { CustomLayout } from '@/components';
+import styles from './styles.module.scss';
 
 const About = () => {
+  const token = cookies().get('token')?.value || '';
+  const _userInfoStr = cookies().get('userInfo')?.value;
+  const userInfo = _userInfoStr ? JSON.parse(_userInfoStr || '{}') : {};
+
   return (
-    <CustomLayout>
+    <CustomLayout token={token} userInfo={userInfo}>
       <div className={styles.box}>
         <h4>或许您可以通过下面几个链接了解</h4>
         <ul>
