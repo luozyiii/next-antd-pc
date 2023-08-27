@@ -73,14 +73,14 @@ const Login = () => {
 
       if (data) {
         message.success('注册成功!');
-        window.location.href = '/login';
+        router.push('/login');
       }
     } catch (error) {
       setLoading(false);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [router]);
 
   return (
     <ThemeContent>
