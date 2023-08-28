@@ -6,6 +6,7 @@ import { Card } from 'antd';
 import { useFetch } from '@/hooks';
 import styles from './page.module.css';
 
+// 偶发 dev 环境 报警告，生产无此问题
 function SwrDemo({ token }: any) {
   const {
     data,
