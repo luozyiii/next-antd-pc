@@ -8,7 +8,7 @@ async function saveToken(token: string) {
   cookies().set({
     name: 'token',
     value: token,
-    expires: Date.now() - oneDay,
+    expires: Date.now() + oneDay,
   });
 }
 
@@ -16,7 +16,7 @@ async function saveUserInfo(userInfo: any) {
   cookies().set({
     name: 'userInfo',
     value: JSON.stringify(userInfo),
-    expires: Date.now() - oneDay,
+    expires: Date.now() + oneDay,
   });
 }
 
