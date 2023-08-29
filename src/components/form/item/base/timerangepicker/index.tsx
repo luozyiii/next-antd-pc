@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import zhCN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
-import { TimePicker, ConfigProvider } from 'antd';
+import { TimePicker } from 'antd';
 import type { TimeRangePickerProps } from 'antd';
 import type { Dayjs } from 'dayjs';
 
@@ -37,11 +36,7 @@ const Comp = ({ value, onChange, format = 'HH:mm:ss', ...other }: CustomeRangePi
       : null;
   }, [format, value]);
 
-  return (
-    <ConfigProvider locale={zhCN}>
-      <RangePicker {...other} format={format} value={_v} onChange={handleOnChange} />
-    </ConfigProvider>
-  );
+  return <RangePicker {...other} format={format} value={_v} onChange={handleOnChange} />;
 };
 
 export default Comp;

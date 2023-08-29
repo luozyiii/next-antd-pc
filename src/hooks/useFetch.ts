@@ -2,8 +2,9 @@
 
 import useSWR from 'swr';
 import { message } from 'antd';
+import { clearCookies } from '@/app/action';
 import { NEST_API } from '@/config';
-import { HTTP_CLIENT_ERROR, HTTP_SUCCESS } from '@/config/httpcode';
+import { AUTH_FAILED, HTTP_CLIENT_ERROR, HTTP_SUCCESS } from '@/config/httpcode';
 
 // 指定请求地址
 const fetcherFn = (options: any) => (url: string) => fetch(NEST_API + url, options).then((res) => res.json());
@@ -67,6 +68,12 @@ const useFetch = ({ url, method = 'get', params = {}, options = {}, token }: Use
 
   if (code === HTTP_CLIENT_ERROR) {
     message.error(msg);
+  }
+
+  // token 过期
+  if (code === AUTH_FAILED) {
+    message.error(msg);
+    clearCookies();
   }
 
   // 请求成功

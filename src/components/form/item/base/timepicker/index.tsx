@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import zhCN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
-import { TimePicker, ConfigProvider } from 'antd';
+import { TimePicker } from 'antd';
 import type { TimePickerProps } from 'antd';
 import type { Dayjs } from 'dayjs';
 
@@ -27,11 +26,7 @@ const Comp = ({ value, onChange, format = 'HH:mm:ss', ...other }: CustomeDatePic
     return value ? dayjs(value, format as string) : null;
   }, [format, value]);
 
-  return (
-    <ConfigProvider locale={zhCN}>
-      <TimePicker {...other} format={format} value={_v} onChange={handleOnChange} />
-    </ConfigProvider>
-  );
+  return <TimePicker {...other} format={format} value={_v} onChange={handleOnChange} />;
 };
 
 export default Comp;
