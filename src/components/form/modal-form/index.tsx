@@ -4,11 +4,17 @@ import { useCallback, useRef, useState } from 'react';
 import { Button, Modal } from 'antd';
 import Form from '../form';
 import type { FormRef } from '../form';
+import type { RecordType } from '@/types';
 
 interface ModalFormProps {
-  fields: any[];
+  fields: Array<{
+    type: string;
+    label: string;
+    name: string;
+    [key: string]: unknown;
+  }>;
   children: React.ReactElement | string;
-  onSearch?: (params: any) => void;
+  onSearch?: (params: RecordType) => void;
 }
 
 const ModalForm: React.FC<ModalFormProps> = ({ fields, children }: ModalFormProps) => {
@@ -24,7 +30,7 @@ const ModalForm: React.FC<ModalFormProps> = ({ fields, children }: ModalFormProp
   return (
     <>
       <Modal title="这是一个标题" open={open} onCancel={closeModal}>
-        <Form ref={formRef} fields={fields} />
+        <Form ref={formRef} fields={fields as never} />
       </Modal>
       <Button onClick={openModal}>{children}</Button>
     </>

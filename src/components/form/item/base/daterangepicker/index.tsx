@@ -32,11 +32,11 @@ const Comp = ({ value, onChange, format = 'YYYY-MM-DD HH:mm:ss', ...other }: Cus
     [format, onChange],
   );
 
-  const _v: valueOriginalProps | any = useMemo(() => {
+  const _v = useMemo(() => {
     return value && value.length
-      ? value.map((v) => {
+      ? (value.map((v) => {
           return v ? dayjs(v) : null;
-        })
+        }) as valueOriginalProps)
       : null;
   }, [value]);
 

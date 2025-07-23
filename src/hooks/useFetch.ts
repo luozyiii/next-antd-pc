@@ -5,60 +5,62 @@ import { message } from 'antd';
 import { clearCookies } from '@/app/action';
 import { NEST_API } from '@/config';
 import { AUTH_FAILED, HTTP_CLIENT_ERROR, HTTP_SUCCESS } from '@/config/httpcode';
+import type { ApiResponse, FetchOptions, UseFetchParams, UseFetchResult } from '@/types';
 
 // 指定请求地址
-const fetcherFn = (options: any) => (url: string) => fetch(NEST_API + url, options).then((res) => res.json());
+const fetcherFn = (options: FetchOptions) => (url: string) => fetch(NEST_API + url, options).then((res) => res.json());
 
-type UseFetchProps = {
-  url: string;
-  method?: 'get' | 'post' | 'put' | 'head' | 'options' | 'delete';
-  params?: any;
-  options?: any; // fetch 请求的 options
-  token?: string; // 请求令牌
-};
+// 保持向后兼容的类型别名
+type UseFetchProps = UseFetchParams;
+type UseFetchReturnProps<T = unknown> = UseFetchResult<T>;
 
-type UseFetchReturnProps = {
-  raw: any; // 请求返回的原始数据
-  data: any; // 处理后的数据
-  error: any; // 错误信息
-  loading: boolean; // 是否在请求
-  msg?: string; // 接口返回的错误信息
-};
-
-const useFetch = ({ url, method = 'get', params = {}, options = {}, token }: UseFetchProps): UseFetchReturnProps => {
+const useFetch = <T = unknown>({
+  url,
+  method = 'get',
+  params = {},
+  options = {},
+  token,
+}: UseFetchProps): UseFetchReturnProps<T> => {
   let _url = '';
-  let _options = {};
+  let _options: FetchOptions = {};
   const { headers = {}, ...otherOptions } = options;
-  const lowerMethod = method?.toLocaleLowerCase();
+  const lowerMethod = method?.toLowerCase();
 
   if (['get', 'delete'].includes(lowerMethod)) {
-    const queryString = new URLSearchParams(params).toString();
-    if (queryString) {
-      _url = url + '?' + queryString;
-    } else {
-      _url = url;
-    }
+    const queryString = new URLSearchParams(
+      Object.entries(params).reduce(
+        (acc, [key, value]) => {
+          if (value !== undefined && value !== null) {
+            acc[key] = String(value);
+          }
+          return acc;
+        },
+        {} as Record<string, string>,
+      ),
+    ).toString();
+
+    _url = queryString ? `${url}?${queryString}` : url;
 
     _options = {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: token ? `Bearer ${token}` : '',
         'Content-Type': 'application/x-www-form-urlencoded',
         ...headers,
       },
       ...otherOptions,
-      method: method?.toLocaleUpperCase(),
+      method: method?.toUpperCase() as FetchOptions['method'],
     };
   } else {
     _url = url;
     _options = {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: token ? `Bearer ${token}` : '',
         'Content-Type': 'application/json',
         ...headers,
       },
       body: JSON.stringify(params),
       ...otherOptions,
-      method: method?.toLocaleUpperCase(),
+      method: method?.toUpperCase() as FetchOptions['method'],
     };
   }
 
@@ -97,20 +99,36 @@ const useFetch = ({ url, method = 'get', params = {}, options = {}, token }: Use
   };
 };
 
-export const fetchData = async ({ url, method = 'get', params = {}, options = {} }: UseFetchProps) => {
+export const fetchData = async <T = unknown>({
+  url,
+  method = 'get',
+  params = {},
+  options = {},
+}: UseFetchParams): Promise<{
+  raw: ApiResponse<T>;
+  data: T | null;
+  msg: string;
+}> => {
   try {
     let _url = '';
-    let _options = {};
+    let _options: FetchOptions = {};
     const { headers = {}, ...otherOptions } = options;
-    const lowerMethod = method?.toLocaleLowerCase();
+    const lowerMethod = method?.toLowerCase();
 
     if (['get', 'delete'].includes(lowerMethod)) {
-      const queryString = new URLSearchParams(params).toString();
-      if (queryString) {
-        _url = url + '?' + queryString;
-      } else {
-        _url = url;
-      }
+      const queryString = new URLSearchParams(
+        Object.entries(params).reduce(
+          (acc, [key, value]) => {
+            if (value !== undefined && value !== null) {
+              acc[key] = String(value);
+            }
+            return acc;
+          },
+          {} as Record<string, string>,
+        ),
+      ).toString();
+
+      _url = queryString ? `${url}?${queryString}` : url;
 
       _options = {
         headers: {
@@ -118,7 +136,7 @@ export const fetchData = async ({ url, method = 'get', params = {}, options = {}
           ...headers,
         },
         ...otherOptions,
-        method: method?.toLocaleUpperCase(),
+        method: method?.toUpperCase() as FetchOptions['method'],
       };
     } else {
       _url = url;
@@ -129,13 +147,13 @@ export const fetchData = async ({ url, method = 'get', params = {}, options = {}
         },
         body: JSON.stringify(params),
         ...otherOptions,
-        method: method?.toLocaleUpperCase(),
+        method: method?.toUpperCase() as FetchOptions['method'],
       };
     }
 
     const response = await fetch(NEST_API + _url, _options);
 
-    const jsonData = await response.json();
+    const jsonData: ApiResponse<T> = await response.json();
     const { code, data, msg } = jsonData;
 
     if (code === HTTP_CLIENT_ERROR) {
@@ -157,8 +175,9 @@ export const fetchData = async ({ url, method = 'get', params = {}, options = {}
       data: null,
       msg,
     };
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(errorMessage);
   }
 };
 

@@ -8,10 +8,11 @@ import SideMenu from '../menu/side-menu';
 import TopMenu from '../menu/top-menu';
 import LoginBtn from '../user/LoginBtn';
 import styles from './styles.module.scss';
+import type { UserInfo } from '@/types';
 
 type LayoutProps = {
   token: string;
-  userInfo: any;
+  userInfo: UserInfo;
   children: React.ReactNode;
 };
 
@@ -20,7 +21,7 @@ const Layout = ({ token, userInfo, children }: LayoutProps) => {
 
   const pathname = usePathname();
   const pathnameArr = pathname?.split('/');
-  const items = getSideMenu(pathnameArr[1]);
+  const items = getSideMenu(pathnameArr?.[1] || '');
 
   return (
     <>

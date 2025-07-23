@@ -4,8 +4,9 @@ import ApiDemo from './ApiDemo';
 import FetchDemo from './FetchDemo';
 import SwrDemo from './SwrDemo';
 
-export default function BooksPage() {
-  const token = cookies().get('token')?.value || '';
+export default async function BooksPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value || '';
 
   return (
     <PageContent>

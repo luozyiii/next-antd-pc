@@ -1,22 +1,21 @@
 'use client';
 
-import { Fragment, forwardRef, useImperativeHandle, createElement, useCallback } from 'react';
+import { Fragment, createElement, forwardRef, useCallback, useImperativeHandle } from 'react';
 import { omitBy } from 'lodash-es';
 import { Col, Form, Row } from 'antd';
-import type { FormInstance, FormProps, FormItemProps } from 'antd';
 import formItem from '../form/item';
+import type { FormDisplayRule, RecordType } from '@/types';
+import type { FormInstance, FormItemProps, FormProps } from 'antd';
 
-interface FItemProps extends FormItemProps {
+interface FItemProps extends Omit<FormItemProps, 'shouldUpdate'> {
   type: keyof typeof formItem;
   label: string;
   name: string;
-  shouldUpdate?: any;
-  displayRules?: any[]; // 与 shouldUpdate 搭配使用，控制其显示隐藏
+  shouldUpdate?: boolean | string[] | ((prevValues: RecordType, currentValues: RecordType) => boolean);
+  displayRules?: FormDisplayRule[]; // 与 shouldUpdate 搭配使用，控制其显示隐藏
   span?: number;
   colType?: 'default' | 'large';
-  cProps?: {
-    [key: string]: unknown;
-  };
+  cProps?: RecordType;
 }
 
 interface FProps extends FormProps {
@@ -29,14 +28,17 @@ export interface FormRef extends FormInstance {
   reset: () => void;
 }
 
-const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}, ...other }: FProps, ref: any) => {
+const FormWarp = (
+  { fields, grid = false, responsive = false, initialValues = {}, ...other }: FProps,
+  ref: React.Ref<FormRef>,
+) => {
   const [form] = Form.useForm();
 
   // 区别于resetFields，仅仅重置 values
   const resetFiledsValues = useCallback(() => {
-    const values = Object.assign({});
+    const values: RecordType = {};
     fields.forEach((field) => {
-      if (initialValues[field.name]) {
+      if (initialValues && initialValues[field.name]) {
         values[field.name] = initialValues[field.name];
       } else {
         values[field.name] = undefined;
@@ -45,12 +47,19 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
     form.setFieldsValue(values);
   }, [fields, form, initialValues]);
 
-  const isShow = useCallback((displayRules: any[], getFieldValue: (name: string) => any) => {
+  const isShow = useCallback((displayRules: FormDisplayRule[], getFieldValue: (name: string) => unknown) => {
     let isDisplayNum = 0;
     const len = displayRules?.length;
     for (let index = 0; index < len; index++) {
-      const ele = displayRules[index];
-      if (ele.value?.includes(getFieldValue(ele.name))) {
+      const rule = displayRules[index];
+      if (!rule) continue;
+
+      const fieldValue = getFieldValue(rule.field);
+
+      // 简化的值比较逻辑
+      if (Array.isArray(rule.value) && rule.value.includes(fieldValue)) {
+        isDisplayNum++;
+      } else if (rule.value === fieldValue) {
         isDisplayNum++;
       }
     }
@@ -59,6 +68,7 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
 
   // 暴露的方法
   useImperativeHandle(ref, () => ({
+    ...form,
     getFieldsValue: () => {
       const params = form.getFieldsValue(true);
       // 只剔除null、undefined; 不剔除空字符串
@@ -68,28 +78,31 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
     },
     validateFields: async () => await form.validateFields(),
     resetFields: () => form.resetFields(),
-    setFieldsValue: (values: any) => form.setFieldsValue(values),
+    setFieldsValue: (values: RecordType) => form.setFieldsValue(values),
     reset: resetFiledsValues,
   }));
 
   return (
     <Form form={form} initialValues={initialValues} {...other}>
       {!grid &&
-        fields?.map(({ type, cProps, shouldUpdate, displayRules, ...itemProps }, index) => {
+        fields?.map(({ type, cProps, shouldUpdate, displayRules, name, ...itemProps }, index) => {
           if (formItem[type]) {
             if (['switch'].includes(type)) {
               itemProps.valuePropName = 'checked';
             }
             if (shouldUpdate && displayRules) {
               return (
-                <Fragment key={index}>
-                  <Form.Item noStyle shouldUpdate={shouldUpdate}>
+                <Fragment key={name || `field-${index}`}>
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={
+                      shouldUpdate as boolean | ((prevValues: RecordType, currentValues: RecordType) => boolean)
+                    }
+                  >
                     {({ getFieldValue }) => {
                       if (isShow(displayRules, getFieldValue)) {
                         return (
-                          <Form.Item {...itemProps}>
-                            {createElement(formItem[type] as React.FC, cProps as any)}
-                          </Form.Item>
+                          <Form.Item {...itemProps}>{createElement(formItem[type] as React.FC, cProps)}</Form.Item>
                         );
                       }
                       return null;
@@ -99,16 +112,22 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
               );
             } else {
               return (
-                <Fragment key={index}>
-                  <Form.Item shouldUpdate={shouldUpdate} {...itemProps}>
-                    {createElement(formItem[type] as React.FC, cProps as any)}
+                <Fragment key={name || `field-${index}`}>
+                  <Form.Item
+                    shouldUpdate={
+                      shouldUpdate as boolean | ((prevValues: RecordType, currentValues: RecordType) => boolean)
+                    }
+                    {...itemProps}
+                  >
+                    {createElement(formItem[type] as React.FC, cProps)}
                   </Form.Item>
                 </Fragment>
               );
             }
           } else {
             return (
-              <Fragment key={index}>
+              // eslint-disable-next-line react/no-array-index-key
+              <Fragment key={`fallback-${index}`}>
                 <Form.Item label="待开发组件">-</Form.Item>
               </Fragment>
             );
@@ -117,7 +136,7 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
       {grid && (
         <Row gutter={12}>
           {fields?.map(
-            ({ type, cProps, shouldUpdate, displayRules, span, colType = 'default', ...itemProps }, index) => {
+            ({ type, cProps, shouldUpdate, displayRules, span, colType = 'default', name, ...itemProps }, index) => {
               // 响应式布局
               const responsiveObj = responsive
                 ? {
@@ -135,14 +154,17 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
                 }
                 if (shouldUpdate && displayRules) {
                   return (
-                    <Col key={index} span={span} {...responsiveObj}>
-                      <Form.Item noStyle shouldUpdate={shouldUpdate}>
+                    <Col key={name || `field-${index}`} span={span} {...responsiveObj}>
+                      <Form.Item
+                        noStyle
+                        shouldUpdate={
+                          shouldUpdate as boolean | ((prevValues: RecordType, currentValues: RecordType) => boolean)
+                        }
+                      >
                         {({ getFieldValue }) => {
                           if (isShow(displayRules, getFieldValue)) {
                             return (
-                              <Form.Item {...itemProps}>
-                                {createElement(formItem[type] as React.FC, cProps as any)}
-                              </Form.Item>
+                              <Form.Item {...itemProps}>{createElement(formItem[type] as React.FC, cProps)}</Form.Item>
                             );
                           }
                           return null;
@@ -152,16 +174,22 @@ const FormWarp = ({ fields, grid = false, responsive = false, initialValues = {}
                   );
                 } else {
                   return (
-                    <Col key={index} span={span} {...responsiveObj}>
-                      <Form.Item shouldUpdate={shouldUpdate} {...itemProps}>
-                        {createElement(formItem[type] as React.FC, cProps as any)}
+                    <Col key={name || `field-${index}`} span={span} {...responsiveObj}>
+                      <Form.Item
+                        shouldUpdate={
+                          shouldUpdate as boolean | ((prevValues: RecordType, currentValues: RecordType) => boolean)
+                        }
+                        {...itemProps}
+                      >
+                        {createElement(formItem[type] as React.FC, cProps)}
                       </Form.Item>
                     </Col>
                   );
                 }
               } else {
                 return (
-                  <Col key={index} span={span} {...responsiveObj}>
+                  // eslint-disable-next-line react/no-array-index-key
+                  <Col key={`fallback-${index}`} span={span} {...responsiveObj}>
                     <Form.Item label="待开发组件">-</Form.Item>
                   </Col>
                 );

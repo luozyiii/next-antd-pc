@@ -1,42 +1,49 @@
-import { useMemo, Children, isValidElement, cloneElement } from 'react';
-import type { Key } from 'react';
+import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { Table } from 'antd';
+import type { RecordType } from '@/types';
 import type { TableProps } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
-export const TableColumn: React.FC<any> = ({ children, ...params }: any) => {
-  return (children ? children(params) : null) ?? '-';
+interface TableColumnProps<T = RecordType> {
+  children?: (params: T & { index: number }) => React.ReactNode;
+  [key: string]: unknown;
+}
+
+export const TableColumn = <T extends RecordType = RecordType>({ children, ...params }: TableColumnProps<T>) => {
+  return (children ? children(params as T & { index: number }) : null) ?? '-';
 };
 
-const Comp = ({ columns, children, ...other }: TableProps<any>) => {
+interface CustomTableProps<T = RecordType> extends Omit<TableProps<T>, 'columns'> {
+  columns?: ColumnsType<T>;
+}
+
+const Comp = <T extends RecordType = RecordType>({ columns, children, ...other }: CustomTableProps<T>) => {
   const cols = useMemo(() => {
-    const childMap: any = {};
+    const childMap: Record<string, React.ReactElement> = {};
     Children.forEach(children, (child) => {
-      if (child && isValidElement(child)) {
-        childMap[child.key as Key] = child;
+      if (child && isValidElement(child) && child.key != null) {
+        childMap[String(child.key)] = child;
       }
     });
 
-    return columns?.map((item: any) => {
+    return columns?.map((item) => {
       const { key, ...other } = item;
-      const col = {
-        ...other,
-        key: key,
-        dataIndex: key,
-      };
+      const col = { ...other, key: key, dataIndex: key };
 
-      const ChildComp = childMap[key];
+      const keyStr = String(key);
+      const ChildComp = childMap[keyStr];
 
       if (ChildComp && ChildComp.type === TableColumn) {
-        col.render = (...params: any[]) => cloneElement(ChildComp, { ...params[1], index: params[2] });
+        col.render = (text: unknown, record: T, index: number) => cloneElement(ChildComp, { ...record, index });
       } else {
-        col.render = (text: string | number) => text ?? '-';
+        col.render = (text: unknown) => text ?? '-';
       }
 
       return col;
     });
   }, [children, columns]);
 
-  return <Table size="small" {...other} columns={cols} />;
+  return <Table size="small" {...other} columns={cols as ColumnsType<T>} />;
 };
 
 export default Comp;

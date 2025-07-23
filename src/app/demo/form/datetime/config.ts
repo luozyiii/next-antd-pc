@@ -1,110 +1,115 @@
-const fields: any[] = [
+const fields: Array<{
+  type: string;
+  label: string;
+  name: string;
+  cProps?: Record<string, unknown>;
+}> = [
   {
-    type: "datepicker",
-    label: "日期",
-    name: "day",
+    type: 'datepicker',
+    label: '日期',
+    name: 'day',
     cProps: {
       // format: 'YYYY-MM-DD',
       showTime: true,
     },
   },
   {
-    type: "datepicker",
-    label: "日期(周)",
-    name: "week",
+    type: 'datepicker',
+    label: '日期(周)',
+    name: 'week',
     cProps: {
-      picker: "week",
+      picker: 'week',
     },
   },
   {
-    type: "datepicker",
-    label: "日期(月份)",
-    name: "month",
+    type: 'datepicker',
+    label: '日期(月份)',
+    name: 'month',
     cProps: {
-      picker: "month",
+      picker: 'month',
     },
   },
   {
-    type: "datepicker",
-    label: "日期(季度)",
-    name: "quarter",
+    type: 'datepicker',
+    label: '日期(季度)',
+    name: 'quarter',
     cProps: {
-      picker: "quarter",
+      picker: 'quarter',
     },
   },
   {
-    type: "datepicker",
-    label: "日期(年)",
-    name: "year",
+    type: 'datepicker',
+    label: '日期(年)',
+    name: 'year',
     cProps: {
-      picker: "year",
+      picker: 'year',
     },
   },
   {
-    type: "daterangepicker",
-    label: "日期范围",
-    name: "dayrange",
+    type: 'daterangepicker',
+    label: '日期范围',
+    name: 'dayrange',
     cProps: {
       // format: 'YYYY-MM-DD',
       showTime: true,
     },
   },
   {
-    type: "daterangepicker",
-    label: "日期范围(周)",
-    name: "weekrange",
+    type: 'daterangepicker',
+    label: '日期范围(周)',
+    name: 'weekrange',
     cProps: {
-      picker: "week",
+      picker: 'week',
     },
   },
   {
-    type: "daterangepicker",
-    label: "日期范围(月份)",
-    name: "monthrange",
+    type: 'daterangepicker',
+    label: '日期范围(月份)',
+    name: 'monthrange',
     cProps: {
-      picker: "month",
+      picker: 'month',
     },
   },
   {
-    type: "daterangepicker",
-    label: "日期范围(季度)",
-    name: "quarterrange",
+    type: 'daterangepicker',
+    label: '日期范围(季度)',
+    name: 'quarterrange',
     cProps: {
-      picker: "quarter",
+      picker: 'quarter',
     },
   },
   {
-    type: "daterangepicker",
-    label: "日期范围(年)",
-    name: "yearrange",
+    type: 'daterangepicker',
+    label: '日期范围(年)',
+    name: 'yearrange',
     cProps: {
-      picker: "year",
+      picker: 'year',
     },
   },
   {
-    type: "timepicker",
-    label: "时间",
-    name: "time",
+    type: 'timepicker',
+    label: '时间',
+    name: 'time',
   },
   {
-    type: "timepicker",
-    label: "时间2",
-    name: "time2",
+    type: 'timepicker',
+    label: '时间2',
+    name: 'time2',
     cProps: {
-      format: "HH:mm",
+      format: 'HH:mm',
     },
   },
   {
-    type: "timerangepicker",
-    label: "时间范围",
-    name: "timerange",
+    type: 'timerangepicker',
+    label: '时间范围',
+    name: 'timerange',
   },
   {
-    type: "timerangepicker",
-    label: "时间范围2",
-    name: "timerange2",
+    type: 'timerangepicker',
+    label: '时间范围2',
+    name: 'timerange2',
     cProps: {
-      format: "HH:mm",
+      format: 'HH:mm',
       minuteStep: 15,
     },
   },

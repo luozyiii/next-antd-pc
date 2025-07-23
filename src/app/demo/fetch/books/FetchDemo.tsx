@@ -10,10 +10,10 @@ export default async function FetchDemo() {
     <Card>
       <h6 className={styles.title}>【服务端渲染】fetch 直接请求第三方接口</h6>
       <ul className={styles.list}>
-        {books?.map((book: any, key: number) => {
+        {books?.map((book: { id: string; name: string }) => {
           const _href = '/demo/fetch/books/' + String(book?.id);
           return (
-            <li key={key}>
+            <li key={book.id}>
               <Link href={_href}>{book?.name}</Link>
             </li>
           );

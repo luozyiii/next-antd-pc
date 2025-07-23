@@ -3,13 +3,13 @@
 import { useCallback, useRef, useState } from 'react';
 import { Button, Space, Alert } from 'antd';
 import { PageContent, Form } from '@/components';
-import type { FormRef } from '@/components/form/form';
 import fields from './config';
+import type { FormRef } from '@/components/form/form';
 
 // upload组件也是自定义组件
 const UploadForm: React.FC = () => {
   const [preStr, setPreStr] = useState('');
-  const formRef = useRef<FormRef>();
+  const formRef = useRef<FormRef>(null);
 
   const handleSubmit = useCallback(async () => {
     await formRef?.current?.validateFields();
@@ -45,13 +45,7 @@ const UploadForm: React.FC = () => {
     <PageContent>
       <Alert message="Upload组件属于自定义表单" type="info" />
       <br />
-      <Form
-        ref={formRef}
-        fields={fields}
-        initialValues={{
-          upload: [],
-        }}
-      />
+      <Form ref={formRef} fields={fields as never} initialValues={{ upload: [] }} />
       <pre>{preStr}</pre>
       <Space>
         <Button type="primary" onClick={handleSubmit}>

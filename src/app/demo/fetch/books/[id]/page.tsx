@@ -1,12 +1,11 @@
-import { getBookDetail } from "@/apis";
-import { PageContent } from "@/components";
+import { getBookDetail } from '@/apis';
+import { PageContent } from '@/components';
 
-type BookDetailProps = {
-  params: { id: string };
-};
+type BookDetailProps = { params: Promise<{ id: string }> };
 
 const BookDetail = async ({ params }: BookDetailProps) => {
-  const { data: bookInfo } = await getBookDetail(params.id);
+  const { id } = await params;
+  const { data: bookInfo } = await getBookDetail(id);
 
   return (
     <PageContent back title={bookInfo?.name}>

@@ -15,14 +15,17 @@ const getData = (cat: string) => {
   return notFound();
 };
 
-const Category = ({ params }: any) => {
-  const data = getData(params.category);
+type CategoryProps = { params: Promise<{ category: string }> };
+
+const Category = async ({ params }: CategoryProps) => {
+  const { category } = await params;
+  const data = getData(category);
   return (
     <PageContent back>
       <div className={styles.container}>
-        <h1 className={styles.catTitle}>{params.category}</h1>
+        <h1 className={styles.catTitle}>{category}</h1>
 
-        {data.map((item: any) => (
+        {data.map((item: { id: number; title: string; desc: string; image: string }) => (
           <div className={styles.item} key={item.id}>
             <div className={styles.content}>
               <h1 className={styles.title}>{item.title}</h1>

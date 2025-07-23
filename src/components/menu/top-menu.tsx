@@ -1,22 +1,27 @@
 'use client';
 
 import React from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import type { MenuProps } from 'antd';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'antd';
 import ThemeContent from '../page/theme-content';
+import type { MenuProps } from 'antd';
 
 interface TopMenuProps {
-  items: any[];
+  items: Array<{
+    key: string;
+    label: string;
+    redirect?: string;
+    [key: string]: unknown;
+  }>;
 }
 
 const TopMenu: React.FC<TopMenuProps> = ({ items }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const _selectedKeys = pathname?.split('/')[1];
+  const _selectedKeys = pathname?.split('/')[1] || '';
 
   const getPath = (key: string) => {
-    const target = items?.find((item: any) => item.key === key);
+    const target = items?.find((item) => item.key === key);
     let path = '/' + key;
     if (target?.redirect) {
       path = target.redirect;
@@ -30,7 +35,7 @@ const TopMenu: React.FC<TopMenuProps> = ({ items }) => {
   };
   return (
     <ThemeContent>
-      <Menu onClick={onClick} selectedKeys={[_selectedKeys]} mode="horizontal" items={items} />
+      <Menu onClick={onClick} selectedKeys={[_selectedKeys]} mode="horizontal" items={items as never} />
     </ThemeContent>
   );
 };

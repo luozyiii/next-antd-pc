@@ -3,12 +3,12 @@
 import { useCallback, useRef, useState } from 'react';
 import { Button, Space } from 'antd';
 import { PageContent, Form } from '@/components';
-import type { FormRef } from '@/components/form/form';
 import fields from './config';
+import type { FormRef } from '@/components/form/form';
 
 const DateTimeForm: React.FC = () => {
   const [preStr, setPreStr] = useState('');
-  const formRef = useRef<FormRef>();
+  const formRef = useRef<FormRef>(null);
 
   const handleSubmit = useCallback(async () => {
     await formRef?.current?.validateFields();
@@ -23,7 +23,13 @@ const DateTimeForm: React.FC = () => {
 
   return (
     <PageContent>
-      <Form ref={formRef} layout="inline" fields={fields} initialValues={{ time: '05:00:00' }} requiredMark={false} />
+      <Form
+        ref={formRef}
+        layout="inline"
+        fields={fields as never}
+        initialValues={{ time: '05:00:00' }}
+        requiredMark={false}
+      />
       <pre>{preStr}</pre>
       <Space>
         <Button type="primary" onClick={handleSubmit}>

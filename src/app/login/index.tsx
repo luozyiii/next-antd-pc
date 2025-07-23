@@ -4,12 +4,37 @@ import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, message } from 'antd';
-import { ThemeContent, Form } from '@/components';
+import { Form, ThemeContent } from '@/components';
 import { fetchData } from '@/hooks/useFetch';
 import { saveToken, saveUserInfo } from '../action';
 import styles from './styles.module.scss';
+import type { FormRef } from '@/components/form/form';
+import type { LoginCredentials, UserInfo } from '@/types';
 
-const fields: any[] = [
+type FormItemType =
+  | 'number'
+  | 'input'
+  | 'password'
+  | 'textarea'
+  | 'switch'
+  | 'priceUnit'
+  | 'datepicker'
+  | 'daterangepicker'
+  | 'timepicker'
+  | 'timerangepicker'
+  | 'select'
+  | 'upload'
+  | 'checkbox'
+  | 'radio'
+  | 'treeselect'
+  | 'cascader';
+
+const fields: Array<{
+  type: FormItemType;
+  label: string;
+  name: string;
+  rules: Array<{ required: boolean; message: string }>;
+}> = [
   {
     type: 'input',
     label: '用户名',
@@ -27,15 +52,18 @@ const fields: any[] = [
 const Login = () => {
   const router = useRouter();
 
-  const formRef = useRef<any>(null);
+  const formRef = useRef<FormRef>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCallback(async () => {
     try {
       await formRef?.current?.validateFields();
-      const _values = formRef?.current?.getFieldsValue();
+      const _values = formRef?.current?.getFieldsValue() as LoginCredentials;
       setLoading(true);
-      const { data } = await fetchData({
+      const { data } = await fetchData<{
+        token: string;
+        userInfo: UserInfo;
+      }>({
         url: '/auth/login',
         method: 'post',
         params: _values,
@@ -48,7 +76,7 @@ const Login = () => {
         message.success('登录成功！');
         router.push('/');
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
     } finally {
       setLoading(false);

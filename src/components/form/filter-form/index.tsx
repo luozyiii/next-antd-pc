@@ -1,17 +1,23 @@
 'use client';
 
-import React, { useCallback, useState, useRef } from 'react';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import React, { useCallback, useRef, useState } from 'react';
 import { Button, Space } from 'antd';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import Form from '../form';
 import styles from './index.module.scss';
 import type { FormRef } from '../form';
+import type { RecordType } from '@/types';
 
 interface FilterFormProps {
-  fields: any[];
+  fields: Array<{
+    type: string;
+    label: string;
+    name: string;
+    [key: string]: unknown;
+  }>;
   showExpand?: boolean; // 展示/收起; 后续用动态布局替代该属性
   defaultExpand?: boolean; // 默认收起
-  onSearch?: (params: any) => void;
+  onSearch?: (params: RecordType) => void;
   onReset?: () => void;
 }
 
@@ -37,7 +43,7 @@ const FilterForm: React.FC<FilterFormProps> = ({
       const _values = formRef?.current?.getFieldsValue();
       onSearch?.(_values);
       setLoading(false);
-    } catch (error) {
+    } catch {
       setLoading(false);
     }
   }, [onSearch]);
@@ -53,7 +59,7 @@ const FilterForm: React.FC<FilterFormProps> = ({
         ref={formRef}
         grid
         responsive
-        fields={fields}
+        fields={fields as never}
         className={styles.formBox}
         style={{ height: showExpand ? (!expand ? '56px' : 'auto') : 'auto' }}
       />

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { Button, Space } from "antd";
-import { PageContent, Form } from "@/components";
-import type { FormRef } from "@/components/form/form";
-import fields from "./config";
+import { useCallback, useRef, useState } from 'react';
+import { Button, Space } from 'antd';
+import { PageContent, Form } from '@/components';
+import fields from './config';
+import type { FormRef } from '@/components/form/form';
 
 const BaseForm: React.FC = () => {
-  const [preStr, setPreStr] = useState("");
-  const formRef = useRef<FormRef>();
+  const [preStr, setPreStr] = useState('');
+  const formRef = useRef<FormRef>(null);
 
   const handleSubmit = useCallback(async () => {
     await formRef?.current?.validateFields();
@@ -27,11 +27,7 @@ const BaseForm: React.FC = () => {
         ref={formRef}
         layout="inline"
         fields={fields}
-        initialValues={{
-          checkbox: ["HuaWei"],
-          switch: true,
-          date: "2022-10-10",
-        }}
+        initialValues={{ checkbox: ['HuaWei'], switch: true, date: '2022-10-10' }}
         requiredMark={false}
       />
       <pre>{preStr}</pre>

@@ -1,10 +1,10 @@
-import { PageContent, ModalForm } from "@/components";
-import { fields } from "./config";
+import { PageContent, ModalForm } from '@/components';
+import { fields } from './config';
 
 const ModalFormPage = () => {
   return (
     <PageContent>
-      <ModalForm fields={fields}>新增</ModalForm>
+      <ModalForm fields={fields as never}>新增</ModalForm>
     </PageContent>
   );
 };

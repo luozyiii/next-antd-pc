@@ -1,29 +1,53 @@
-# 使用Node.js作为基础镜像
-FROM node:20-alpine3.18
+# 多阶段构建优化
+FROM node:20-alpine AS base
 
-# 设置工作目录
+# 安装依赖阶段
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# 复制package.json和package-lock.json文件到工作目录
-COPY package*.json ./
+# 复制依赖文件
+COPY package.json package-lock.json* ./
 
-# npm 源，选用国内镜像源以提高下载速度
-# RUN npm config set registry https://registry.npm.taobao.org/
-
-# 腾讯源
-RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
+# 配置 npm 镜像源
+RUN npm config set registry https://registry.npmmirror.com/
 
 # 安装依赖
-RUN npm install
+RUN npm ci --only=production
 
-# 复制应用程序的源代码到工作目录
+# 构建阶段
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# 构建应用程序
+# 设置环境变量
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# 构建应用
 RUN npm run build
 
-# 暴露应用程序的端口
+# 运行阶段
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# 创建非 root 用户
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# 复制构建产物
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
 EXPOSE 3000
 
-# 启动应用程序
-CMD ["npm", "run", "start"]
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["node", "server.js"]

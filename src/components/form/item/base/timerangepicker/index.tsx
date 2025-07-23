@@ -28,11 +28,11 @@ const Comp = ({ value, onChange, format = 'HH:mm:ss', ...other }: CustomeRangePi
     },
     [format, onChange],
   );
-  const _v: valueOriginalProps | any = useMemo(() => {
+  const _v = useMemo(() => {
     return value && value.length
-      ? value.map((v) => {
+      ? (value.map((v) => {
           return v ? dayjs(v, format as string) : null;
-        })
+        }) as valueOriginalProps)
       : null;
   }, [format, value]);
 

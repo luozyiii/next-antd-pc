@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { Button, Space } from "antd";
-import { PageContent, Form } from "@/components";
-import type { FormRef } from "@/components/form/form";
-import fields from "./config";
+import { useCallback, useRef, useState } from 'react';
+import { Button, Space } from 'antd';
+import { PageContent, Form } from '@/components';
+import fields from './config';
+import type { FormRef } from '@/components/form/form';
 
 const LinkageForm: React.FC = () => {
-  const [preStr, setPreStr] = useState("");
-  const formRef = useRef<FormRef>();
+  const [preStr, setPreStr] = useState('');
+  const formRef = useRef<FormRef>(null);
 
   const handleSubmit = useCallback(async () => {
     await formRef?.current?.validateFields();
@@ -22,9 +22,7 @@ const LinkageForm: React.FC = () => {
   }, []);
 
   const handleClick = useCallback(() => {
-    formRef?.current?.setFieldsValue({
-      gender: "secrecy",
-    });
+    formRef?.current?.setFieldsValue({ gender: 'secrecy' });
   }, []);
 
   return (
@@ -32,7 +30,7 @@ const LinkageForm: React.FC = () => {
       <p>shouldUpdate 和 displayRules搭配实现联动</p>
       <Form
         ref={formRef}
-        fields={fields}
+        fields={fields as never}
         // initialValues={{}}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}

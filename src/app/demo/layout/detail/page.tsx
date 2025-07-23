@@ -1,7 +1,7 @@
-import { PageContent } from "@/components";
+import { PageContent } from '@/components';
 
 const LayoutDetailPage = () => {
-  return <PageContent back>详情容器　</PageContent>;
+  return <PageContent back>详情容器</PageContent>;
 };
 
 export default LayoutDetailPage;

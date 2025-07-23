@@ -2,9 +2,10 @@ import { cookies } from 'next/headers';
 import { CustomLayout } from '@/components';
 import styles from './styles.module.scss';
 
-const About = () => {
-  const token = cookies().get('token')?.value || '';
-  const _userInfoStr = cookies().get('userInfo')?.value;
+const About = async () => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value || '';
+  const _userInfoStr = cookieStore.get('userInfo')?.value;
   const userInfo = _userInfoStr ? JSON.parse(_userInfoStr || '{}') : {};
 
   return (

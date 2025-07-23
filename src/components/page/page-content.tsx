@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { LeftOutlined } from '@ant-design/icons';
 import { Layout, ConfigProvider } from 'antd';
+import { LeftOutlined } from '@ant-design/icons';
 import { getRouteTitle } from '@/routes';
 import theme from '@/theme/themeConfig';
 import styles from './styles.module.scss';

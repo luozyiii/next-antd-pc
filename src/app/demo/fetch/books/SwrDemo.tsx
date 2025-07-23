@@ -1,18 +1,27 @@
 'use client';
 
-import ContentLoader from 'react-content-loader';
 import Link from 'next/link';
+import ContentLoader from 'react-content-loader';
 import { Card } from 'antd';
 import { useFetch } from '@/hooks';
 import styles from './page.module.css';
 
+interface Book {
+  id: number;
+  name: string;
+}
+
+interface SwrDemoProps {
+  token?: string;
+}
+
 // 偶发 dev 环境 报警告，生产无此问题
-function SwrDemo({ token }: any) {
+function SwrDemo({ token }: SwrDemoProps) {
   const {
     data,
     error,
     loading = true,
-  } = useFetch({
+  } = useFetch<Book[]>({
     url: '/book/list',
     method: 'get',
     token,
@@ -33,14 +42,15 @@ function SwrDemo({ token }: any) {
     <Card>
       <h6 className={styles.title}>【客户端渲染】swr 的简单应用 （可结合骨架屏提升用户体验）</h6>
       <ul className={styles.list}>
-        {data?.map((book: any, key: number) => {
-          const _href = '/demo/fetch/books/' + String(book?.id);
-          return (
-            <li key={key}>
-              <Link href={_href}>{book?.name}</Link>
-            </li>
-          );
-        })}
+        {Array.isArray(data) &&
+          data.map((book: Book) => {
+            const _href = '/demo/fetch/books/' + String(book.id);
+            return (
+              <li key={book.id}>
+                <Link href={_href}>{book.name}</Link>
+              </li>
+            );
+          })}
       </ul>
     </Card>
   );

@@ -3,11 +3,43 @@
 import { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, message } from 'antd';
-import { ThemeContent, Form } from '@/components';
+import { Form, ThemeContent } from '@/components';
 import { fetchData } from '@/hooks/useFetch';
 import styles from './styles.module.scss';
+import type { FormRef } from '@/components/form/form';
+import type { RegisterData } from '@/types';
 
-const fields: any[] = [
+type FormItemType =
+  | 'number'
+  | 'input'
+  | 'password'
+  | 'textarea'
+  | 'switch'
+  | 'priceUnit'
+  | 'datepicker'
+  | 'daterangepicker'
+  | 'timepicker'
+  | 'timerangepicker'
+  | 'select'
+  | 'upload'
+  | 'checkbox'
+  | 'radio'
+  | 'treeselect'
+  | 'cascader';
+
+const fields: Array<{
+  type: FormItemType;
+  label: string;
+  name: string;
+  rules?: Array<
+    | { required?: boolean; message?: string }
+    | ((form: { getFieldValue: (name: string) => unknown }) => {
+        validator: (rule: unknown, value: unknown) => Promise<void>;
+      })
+  >;
+  cProps?: Record<string, unknown>;
+  dependencies?: string[];
+}> = [
   {
     type: 'input',
     label: '用户名',
@@ -36,8 +68,8 @@ const fields: any[] = [
         required: true,
         message: '请再次输入你的密码!',
       },
-      ({ getFieldValue }: any) => ({
-        validator(_: any, value: any) {
+      ({ getFieldValue }: { getFieldValue: (name: string) => unknown }) => ({
+        validator(_: unknown, value: unknown) {
           if (!value || getFieldValue('password') === value) {
             return Promise.resolve();
           }
@@ -53,16 +85,16 @@ const fields: any[] = [
 
 const Login = () => {
   const router = useRouter();
-  const formRef = useRef<any>(null);
+  const formRef = useRef<FormRef>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCallback(async () => {
     try {
       await formRef?.current?.validateFields();
-      const { username, password } = formRef?.current?.getFieldsValue();
+      const { username, password } = formRef?.current?.getFieldsValue() || ({} as RegisterData);
 
       setLoading(true);
-      const { data } = await fetchData({
+      const { data } = await fetchData<{ success: boolean }>({
         url: '/user/register',
         method: 'post',
         params: {
@@ -75,7 +107,7 @@ const Login = () => {
         message.success('注册成功!');
         router.push('/login');
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
     } finally {
       setLoading(false);

@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Upload } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import DraggableUploadListItem from './DraggableUploadListItem';
 import styles from './index.module.scss';
 import type { DragEndEvent } from '@dnd-kit/core';
@@ -34,7 +34,7 @@ const Comp = ({ maxCount = 1, value: fileList = [], onChange, ...other }: Custom
   );
 
   const handleOnChange: UploadProps['onChange'] = useCallback(
-    ({ fileList: newFileList }: any) => {
+    ({ fileList: newFileList }: { fileList: UploadFile[] }) => {
       newFileList = newFileList.slice(0);
       newFileList = newFileList.map((file: UploadFile) => {
         if (file.response) {
@@ -47,6 +47,7 @@ const Comp = ({ maxCount = 1, value: fileList = [], onChange, ...other }: Custom
     [onChange],
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const customRequest = useCallback(async ({ file, onSuccess }: any) => {
     try {
       setLoading(true);
@@ -67,7 +68,7 @@ const Comp = ({ maxCount = 1, value: fileList = [], onChange, ...other }: Custom
         url: lastData?.data?.url,
       });
       setLoading(false);
-    } catch (error) {
+    } catch {
       setLoading(false);
     }
   }, []);

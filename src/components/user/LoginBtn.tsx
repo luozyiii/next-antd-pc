@@ -3,8 +3,14 @@
 import { useRouter } from 'next/navigation';
 import { Button } from 'antd';
 import { clearCookies } from '@/app/action';
+import type { UserInfo } from '@/types';
 
-export default function Component({ token, userInfo = {} }: any) {
+interface LoginBtnProps {
+  token?: string;
+  userInfo?: UserInfo;
+}
+
+export default function Component({ token, userInfo = { username: '' } }: LoginBtnProps) {
   const router = useRouter();
 
   const signIn = () => {

@@ -1,4 +1,13 @@
-export const items: any = {
+export const items: Record<
+  string,
+  Array<{
+    id: number;
+    title: string;
+    desc: string;
+    image: string;
+    tags?: string[];
+  }>
+> = {
   applications: [
     {
       id: 1,

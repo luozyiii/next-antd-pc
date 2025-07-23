@@ -1,7 +1,7 @@
-import React from 'react';
+import { Metadata } from 'next';
 import Home from './home';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'next-antd-pc 👏',
 };
 

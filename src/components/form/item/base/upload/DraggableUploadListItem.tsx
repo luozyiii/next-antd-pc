@@ -5,8 +5,8 @@ import { css } from '@emotion/css';
 import type { UploadFile } from 'antd/es/upload/interface';
 
 interface DraggableUploadListItemProps {
-  originNode: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-  file: UploadFile<any>;
+  originNode: React.ReactElement<unknown, string | React.JSXElementConstructor<unknown>>;
+  file: UploadFile<unknown>;
 }
 
 const DraggableUploadListItem = ({ originNode, file }: DraggableUploadListItemProps) => {
@@ -32,7 +32,9 @@ const DraggableUploadListItem = ({ originNode, file }: DraggableUploadListItemPr
   return (
     <div ref={setNodeRef} style={style} className={className} {...attributes} {...listeners}>
       {/* hide error tooltip when dragging */}
-      {file.status === 'error' && isDragging ? originNode.props.children : originNode}
+      {file.status === 'error' && isDragging
+        ? (originNode.props as { children: React.ReactNode }).children
+        : originNode}
     </div>
   );
 };

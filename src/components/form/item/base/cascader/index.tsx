@@ -2,13 +2,21 @@ import { useCallback, useEffect, useState } from 'react';
 import { Cascader } from 'antd';
 import type { CascaderProps } from 'antd';
 
-type CustomeCascaderProps = CascaderProps & {
-  fetch?: (params?: object) => Promise<any>;
+type CustomeCascaderProps = Omit<CascaderProps, 'options'> & {
+  options?: Array<Record<string, unknown>>;
+  fetch?: (params?: object) => Promise<unknown>;
   fetchParams?: object;
-  responseHandler?: (res: any) => any;
+  responseHandler?: (res: unknown) => Array<Record<string, unknown>>;
 };
 
-const Comp = ({ options, fetch, fetchParams, responseHandler = (res: any) => res, ...other }: CustomeCascaderProps) => {
+const Comp = ({
+  options,
+  fetch,
+  fetchParams,
+  responseHandler = (res: unknown) => res as Array<Record<string, unknown>>,
+  ...other
+}: CustomeCascaderProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [ops, setOps] = useState<any[]>([]);
 
   const getOptions = useCallback(async () => {
@@ -28,7 +36,8 @@ const Comp = ({ options, fetch, fetchParams, responseHandler = (res: any) => res
     getOptions();
   }, [getOptions]);
 
-  return <Cascader options={ops} {...other} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <Cascader options={ops} {...(other as any)} />;
 };
 
 export default Comp;

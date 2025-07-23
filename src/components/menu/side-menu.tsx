@@ -1,14 +1,15 @@
 'use client';
 
 import React from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import type { MenuProps } from 'antd';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'antd';
 import { getAllPath } from '@/routes/utils';
 import ThemeContent from '../page/theme-content';
+import type { TreeItem } from '@/types';
+import type { MenuProps } from 'antd';
 
 interface SideMenuProps {
-  items: any[];
+  items: TreeItem[];
 }
 
 const SideMenu: React.FC<SideMenuProps> = ({ items }) => {
@@ -27,7 +28,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ items }) => {
         defaultOpenKeys={_openKeys}
         selectedKeys={_openKeys}
         style={{ width: 220 }}
-        items={items}
+        items={items as never}
         onClick={onClick}
       />
     </ThemeContent>

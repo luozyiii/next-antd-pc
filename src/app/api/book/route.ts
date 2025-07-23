@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const GET = async (request: any) => {
+export const GET = async (request: NextRequest) => {
   const url = new URL(request.url);
   const params = url.searchParams;
   try {
@@ -11,7 +11,7 @@ export const GET = async (request: any) => {
     });
     const data = await res.json();
     return new NextResponse(JSON.stringify(data), { status: 200 });
-  } catch (err) {
+  } catch {
     return new NextResponse('Database Error', { status: 500 });
   }
 };

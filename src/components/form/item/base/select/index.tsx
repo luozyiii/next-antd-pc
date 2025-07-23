@@ -3,13 +3,20 @@ import { Select } from 'antd';
 import type { SelectProps } from 'antd';
 
 interface CustomeSelectProps extends SelectProps {
-  fetch?: (params?: object) => Promise<any>;
+  fetch?: (params?: object) => Promise<unknown>;
   fetchParams?: object;
-  responseHandler?: (res: any) => any;
+  responseHandler?: (res: unknown) => Array<Record<string, unknown>>;
 }
 
 // 实现重点： 数据源异步加载
-const Comp = ({ options, fetch, fetchParams, responseHandler = (res: any) => res, ...other }: CustomeSelectProps) => {
+const Comp = ({
+  options,
+  fetch,
+  fetchParams,
+  responseHandler = (res: unknown) => res as Array<Record<string, unknown>>,
+  ...other
+}: CustomeSelectProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [ops, setOps] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 

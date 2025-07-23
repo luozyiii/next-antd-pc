@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { minioClient } from '@/utils/minio';
 
-const bucketName = process.env.MINIO_BUCKET_NAME;
+const bucketName = process.env.MINIO_BUCKET_NAME || 'default-bucket';
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(bytes);
 
   const fileName = `${Date.now()}_${data.get('fileName')}`;
-  await minioClient.putObject(bucketName, fileName, buffer, {
+  await minioClient.putObject(bucketName, fileName, buffer, buffer.length, {
     'Content-Type': contentType,
   });
 

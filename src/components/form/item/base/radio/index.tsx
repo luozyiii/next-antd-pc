@@ -4,9 +4,9 @@ import type { RadioGroupProps } from 'antd';
 
 interface CustomeRadioGroupProps extends RadioGroupProps {
   direction?: 'horizontal' | 'vertical';
-  fetch?: (params?: object) => Promise<any>;
+  fetch?: (params?: object) => Promise<unknown>;
   fetchParams?: object;
-  responseHandler?: (res: any) => any;
+  responseHandler?: (res: unknown) => Array<Record<string, unknown>>;
   fieldNames?: { label: string; value: string };
 }
 
@@ -17,9 +17,10 @@ const Comp = ({
   fetch,
   fetchParams,
   fieldNames,
-  responseHandler = (res: any) => res,
+  responseHandler = (res: unknown) => res as Array<Record<string, unknown>>,
   ...other
 }: CustomeRadioGroupProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [ops, setOps] = useState<any[]>([]);
 
   const getOptions = useCallback(async () => {
@@ -27,7 +28,7 @@ const Comp = ({
       if (fetch) {
         const res = responseHandler(await fetch({ ...fetchParams }));
         const lastRes = fieldNames
-          ? res.map((item: any) => {
+          ? res.map((item: Record<string, unknown>) => {
               return {
                 label: item[fieldNames.label],
                 value: item[fieldNames.value],
@@ -50,11 +51,11 @@ const Comp = ({
   return (
     <Radio.Group {...other}>
       <Space direction={direction}>
-        {ops?.map((option: any, index: number) => {
+        {ops?.map((option: Record<string, unknown>, index: number) => {
           const { value, label, ...rest } = option;
           return (
-            <Radio key={index} value={value} {...rest}>
-              {label}
+            <Radio key={String(value) || `radio-${index}`} value={value} {...rest}>
+              {String(label)}
             </Radio>
           );
         })}

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { Button, Space } from "antd";
-import { PageContent, Form } from "@/components";
-import type { FormRef } from "@/components/form/form";
-import fields from "./config";
+import { useCallback, useRef, useState } from 'react';
+import { Button, Space } from 'antd';
+import { PageContent, Form } from '@/components';
+import fields from './config';
+import type { FormRef } from '@/components/form/form';
 
 const SelectForm: React.FC = () => {
-  const [preStr, setPreStr] = useState("");
-  const formRef = useRef<FormRef>();
+  const [preStr, setPreStr] = useState('');
+  const formRef = useRef<FormRef>(null);
 
   const handleSubmit = useCallback(async () => {
     await formRef?.current?.validateFields();
@@ -23,13 +23,7 @@ const SelectForm: React.FC = () => {
 
   return (
     <PageContent>
-      <Form
-        ref={formRef}
-        layout="inline"
-        fields={fields}
-        initialValues={{}}
-        requiredMark={false}
-      />
+      <Form ref={formRef} layout="inline" fields={fields as never} initialValues={{}} requiredMark={false} />
       <pre>{preStr}</pre>
       <Space>
         <Button type="primary" onClick={handleSubmit}>
